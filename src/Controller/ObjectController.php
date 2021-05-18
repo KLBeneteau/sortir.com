@@ -21,7 +21,8 @@ class ObjectController extends AbstractController
      */
     public function villes(Request $request,VilleRepository $villeRepository,EntityManagerInterface $entityManager) : Response {
 
-        $villeList = $villeRepository->findAvecFiltre() ;
+        $villeList = $villeRepository->findAvecFiltre($request->get('filtre')) ;
+        dump($request->get('filtre'));
 
         $ville = new Ville() ;
         $villeForm =$this->createForm(VilleType::class, $ville) ;
@@ -46,8 +47,6 @@ class ObjectController extends AbstractController
      * @Route("Campus", name="Campus")
      */
     public function campus() : Response {
-
-
 
         return $this->render('object/campus.html.twig') ;
 
