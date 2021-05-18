@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} : Gestions Villes
+{% endblock %}
+
+{% block body %}
+    <h3>Filtrer les villes</h3>
+    <form method="post" action="{{ path('Villes') }}">
+        <label for="filtre">Le nom contient : </label>
+        <input type="text" name="filtre" id="filtre">
+        <input type="submit" value="Rechercher">
+    </form>
+    <table border="1">
+        <tr>
+            <th>Ville</th>
+            <th>Code Postale</th>
+            <th>Actions</th>
+        </tr>
+        {% for ville in villeList %}
+            <tr>
+                <th>{{ ville.nom }}</th>
+                <th>{{ ville.codePostal }}</th>
+                <th>todo : modifier - supprimer</th>
+            </tr>
+        {% endfor %}
+        <tr>
+            {{ form_start(villeForm) }}
+            <th>{{ form_widget(villeForm.nom) }}</th>
+            <th>{{ form_widget(villeForm.codePostal) }}</th>
+            <th><button>Ajouter</button></th>
+            {{ form_end(villeForm) }}
+        </tr>
+    </table>
+{% endblock %}
