@@ -1,0 +1,52 @@
+*
+{
+    font-family: 'Teko', sans-serif;
+    color: #212121;
+    font-size: 1em;
+}
+a
+{
+    text-decoration: none;
+}
+
+.menu-li .menu-a
+{
+    font-size: 2em;
+    transition: all 0.5s;
+}
+.menu-a:hover
+{
+    text-decoration: #f5df4d wavy underline;
+    font-weight: bold;
+}
+
+.container
+{
+    display: flex;
+}
+
+.annulation-btn
+{
+    border: 5px solid #212121;
+    transition: all 1s;
+    color: #212121;
+    padding: 20px 30px;
+}
+
+.annulation-btn:hover
+{
+    border: 10px solid #212121;
+}
+
+.validation-btn
+{
+    border: 5px solid #f5df4d;
+    transition: all 1s;
+    color: #212121;
+    padding: 20px 30px;
+}
+
+.validation-btn:hover
+{
+    border: 10px solid #f5df4d;
+}
