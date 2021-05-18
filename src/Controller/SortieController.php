@@ -1,55 +1,61 @@
 <?php
 
-
 namespace App\Controller;
 
+use App\Entity\Etat;
+use App\Entity\Sortie;
+use App\Form\SortieType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/Sortie", name="Sortie_")
- */
 class SortieController extends AbstractController
 {
-
     /**
-     * @Route("Detail/{id}", name="Detail")
+     * @Route("/sortie", name="sortie_list")
      */
-    public function detail() : Response {
+    public function list(): Response
+    {
+        return $this->render('sortie/list.html.twig', [
 
-        return $this->render('sortie/detail.html.twig') ;
-
+        ]);
     }
 
     /**
-     * @Route("Ajouter", name="Ajouter")
+     * @Route("/sortie/creer", name="sortie_create")
      */
-    public function ajouter() : Response {
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $sortie = new Sortie();
 
-        return $this->render('sortie/ajouter.html.twig') ;
+        $sortieForm = $this->createForm(SortieType::class, $sortie);
 
+        $sortieForm->handleRequest($request);
+
+        if($sortieForm->isSubmitted()){
+            $etatRepository = $entityManager ->getRepository(Etat::class);
+
+            if ($request->get('submitAction') == 'enregistrer') {
+                $sortie->setEtat($etat = $etatRepository ->find('3'));
+            }else {
+                if ($request->get('submitAction') == 'publier') {
+                    $sortie->setEtat($etat = $etatRepository ->find('4'));
+                }
+            }
+
+
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+
+            $this->addFlash('success','Sortie ajoutée !');
+            return $this->redirectToRoute('sortie_create');
+        }
+
+        return $this->render('sortie/create.html.twig', [
+            'sortieForm'=>$sortieForm->createView()
+        ]);
     }
-
-    /**
-     * @Route("Modifier", name="Modifier")
-     */
-    public function modifier() : Response {
-
-        return $this->render('sortie/ajouter.html.twig') ;
-        //Appelle le meme fichier twig que ajouter  !
-
-    }
-
-    /**
-     * @Route("Annuler", name="Annuler")
-     */
-    public function annuler() : Response {
-
-        return $this->render('sortie/annuler.html.twig') ;
-
-    }
-
-
-
 }
