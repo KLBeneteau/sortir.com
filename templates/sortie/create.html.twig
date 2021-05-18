@@ -19,9 +19,16 @@
             <span> {{ form_row(sortieForm.lieu) }}  <button id="ajoutLieu"><i class="fa fa-plus-circle"></i></button></span>
         </div>
         <div>
-            <button>Enregistrer</button> <button>Publier la sortie</button> <button>Annuler</button>
+            <button type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
+            <button type="submit" name="submitAction" value="publier">Publier la sortie</button>
+
         {{ form_end(sortieForm) }}
+
         </div>
     </div>
-
+    <div>
+    <form>
+    <button type="submit"  formaction="{{ path('app_login') }}">Annuler</button>
+    </form>
+    </div>
 {% endblock %}
