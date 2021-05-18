@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Créer une sortie {% endblock %}
+{% block stylesheets %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% endblock %}
+{% block body %}
+    <h1>Créer une sortie</h1>
+    <div>
+        {{ form_start(sortieForm) }}
+            {{ form_row(sortieForm.nom) }}
+            {{ form_row(sortieForm.dateHeureDebut) }}
+            {{ form_row(sortieForm.dateLimiteInscription) }}
+            {{ form_row(sortieForm.nbInscriptionsMax) }}
+            {{ form_row(sortieForm.duree) }} minutes
+            {{ form_row(sortieForm.infosSortie) }}
+        <div>
+            <span> {{ form_row(sortieForm.lieu) }}  <button id="ajoutLieu"><i class="fa fa-plus-circle"></i></button></span>
+        </div>
+        <div>
+            <button>Enregistrer</button> <button>Publier la sortie</button> <button>Annuler</button>
+        {{ form_end(sortieForm) }}
+        </div>
+    </div>
+
+{% endblock %}
