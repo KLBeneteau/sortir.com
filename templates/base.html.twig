@@ -21,6 +21,14 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header>
+            <a href="{{ path('main_home') }}" title="Accueil">Accueil</a>
+            <a href="{{ path('Villes') }}" title="Villes">Villes</a>
+            <a href="{{ path('Campus') }}" title="Campus">Campus</a>
+        </header>
+        <main>
+            {% block body %} {% endblock %}
+        </main>
+        <footer></footer>
     </body>
 </html>

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} : {{ user.pseudo }}
+{% endblock %}
+
+{% block body %}
+    <h3>{{ user.pseudo }}</h3>
+    <ul>
+        <ol>Prénom  : {{ user.prenom }}</ol>
+        <ol>Nom: {{ user.nom }}</ol>
+        <ol>Téléphone: {{ user.telephone }}</ol>
+        <ol>Email : {{  user.email }}</ol>
+        <ol>Campus: {{ user.campus }}</ol>
+    </ul>
+    <a href="{{ path('main_home') }}" class="boutton">Retour</a>
+{% endblock %}
