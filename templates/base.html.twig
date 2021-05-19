@@ -22,9 +22,7 @@
     </head>
     <body>
         <header>
-            <a href="{{ path('main_home') }}" title="Accueil">Accueil</a>
-            <a href="{{ path('Villes') }}" title="Villes">Villes</a>
-            <a href="{{ path('Campus') }}" title="Campus">Campus</a>
+            {% include 'inc/nav.html.twig' %}
         </header>
         <main>
             {% block body %} {% endblock %}
