@@ -2,28 +2,28 @@
 
 {% block title %}Créer un profil{% endblock %}
 
-{% block nav %}
-<ul class="menu-ul">
-    <a class="menu-a" href=""><li class="menu-li">Accueil</li></a>
-    <li class="menu-li"> | </li>
-    <a class="menu-a" href=""><li class="menu-li">Mon Profil</li></a>
-    <li class="menu-li"> | </li>
-    <a class="menu-a" href=""><li class="menu-li">Se Connecter</li></a>
-</ul>
-{% endblock %}
+
 
 {% block body %}
     <div class="container">
         <div class="img-profil">
-            <img src="../public/img/canard-profil.png">
+            {% if profil.photoProfil != null %}
+                <img src="{{ asset('upload/photos' ~ profil.photoProfil ) }}">
+
+            {% else %}
+                <img src="{{ asset('img/canard-profil.png') }}">
+            {% endif %}
         </div>
         <div class="formulaire">
-            {#todo : création du formulaire#}
-            {{ form_start(profilForm) }}
-            {{ form_widget(profilForm) }}
-            <button class="annulation-btn">ANNULER</button>
-            <button class="validation-btn">ENREGISTRER</button>
-            {{ form_end(profilForm) }}
+            <div class="contenu-form">
+                {#todo : création du formulaire#}
+                {{ form_start(profilForm) }}
+                {{ form_widget(profilForm) }}
+                <button class="annulation-btn">ANNULER</button>
+                <button class="validation-btn">ENREGISTRER</button>
+                {{ form_end(profilForm) }}
+            </div>
+
         </div>
 
     </div>

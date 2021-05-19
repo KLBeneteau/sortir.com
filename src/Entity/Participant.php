@@ -23,6 +23,10 @@ class Participant implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
      */
     private $email;
 
@@ -65,6 +69,11 @@ class Participant implements UserInterface
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $campus;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private $photoProfil;
 
     public function getId(): ?int
     {
@@ -203,6 +212,18 @@ class Participant implements UserInterface
     public function setCampus(?string $campus): self
     {
         $this->campus = $campus;
+
+        return $this;
+    }
+
+    public function getPhotoProfil(): ?string
+    {
+        return $this->photoProfil;
+    }
+
+    public function setPhotoProfil(?string $photoProfil): self
+    {
+        $this->photoProfil = $photoProfil;
 
         return $this;
     }
