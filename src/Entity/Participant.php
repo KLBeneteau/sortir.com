@@ -61,8 +61,10 @@ class Participant implements UserInterface
      */
     private $pseudo;
 
+
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $campus;
 
