@@ -1,12 +1,15 @@
-<nav>
+<nav class="nav-div">
 
-    <ul>
+    <ul class="menu-ul">
         {% if app.user %}
-            <li><a href="{{ path('main_home') }}" title="Home">Accueil</a></li>
-            <li><a href="{{ path('app_logout') }}" title="Logout">Se déconnecter</a></li>
+            <li class="menu-li"><a class="menu-a" href="{{ path('main_accueil') }}" title="Home">Accueil</a></li>
+            <li class="menu-li">&ensp;&ensp;|&ensp;</li>
+            <li class="menu-li"><a class="menu-a" href="{{ path('app_logout') }}" title="Logout">Se déconnecter</a></li>
 
             {% if is_granted ("ROLE_ADMIN") %}
-                <li><a href="{{ path('admin_dashboard') }}" title="Admin Dashboard">Admin</a></li>
+                <li class="menu-li">&ensp;&ensp;|&ensp;</li>
+                <li class="menu-li"><a class="menu-a" href="{{ path('admin_dashboard') }}" title="Admin Dashboard">Admin</a></li>
+
             {% endif %}
 
 {# {% else %}#}
@@ -15,3 +18,5 @@
 
     </ul>
 </nav>
+
+

@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -30,7 +32,12 @@ class CreerProfilType extends AbstractType
         'first_options'  => ['label' => 'Mot de passe'],
         'second_options' => ['label' => 'Confirmation'],
     ])
-            ->add('campus')
+            ->add('campus', EntityType::class,[
+                'label' => 'Campus',
+                'class' => Campus::class,
+                'choice_label' => 'nom'
+
+            ])
             ->add('photo', FileType::class, [
                 'required' => false,
                 'mapped' => false,

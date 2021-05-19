@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\CreerProfilType;
+use App\Repository\CampusRepository;
+use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -15,7 +17,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ProfilController extends AbstractController
 {
     /**
-     * @Route("/user/monProfil", name="user_monProfil")
+     * @Route("/profil/creerProfil", name="profil_creerProfil")
      */
     public function creerProfil(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, string $photoDir): Response
     {
@@ -45,6 +47,17 @@ class ProfilController extends AbstractController
             'profil' => $profil
         ]);
 
+
+    }
+    /**
+     * @Route("profil/detail/{id}", name="profil_detail")
+     */
+    public function detail(int $id, ParticipantRepository $participantRepository) : Response {
+
+        $user = $participantRepository->find($id);
+
+
+        return $this->render('profil/detail.html.twig', compact('user')) ;
 
     }
 
