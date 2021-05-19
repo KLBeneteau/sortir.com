@@ -10,9 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/accueil", name="main_home")
+     * @Route("/accueil", name="main_accueil")
      */
-    public function home(){
+    public function accueil(){
         return $this->render('main/accueil.html.twig');
     }
 }

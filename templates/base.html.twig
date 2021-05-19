@@ -7,7 +7,8 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
         <title>{% block title %}Sortir.com{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <link rel="icon" href=" {{ asset('../public/img/favicon.png') }}">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
 
@@ -22,6 +23,9 @@
     </head>
     <body>
         <header>
+            <div class="logo-div">
+                <img src="{{ asset('img/logo-coul.png') }}" alt="logo Sortir.com">
+            </div>
             {% include 'inc/nav.html.twig' %}
         </header>
         <main>

@@ -17,9 +17,9 @@ class ObjectController extends AbstractController
 {
 
     /**
-     * @Route("Villes", name="Villes")
+     * @Route("/admin/ville", name="objet_ville")
      */
-    public function villes(Request $request,VilleRepository $villeRepository,EntityManagerInterface $entityManager) : Response {
+    public function ville(Request $request,VilleRepository $villeRepository,EntityManagerInterface $entityManager) : Response {
 
         $villeList = $villeRepository->findAvecFiltre($request->get('filtre')) ;
         dump($request->get('filtre'));
@@ -33,7 +33,7 @@ class ObjectController extends AbstractController
             $entityManager->persist($ville);
             $entityManager->flush();
 
-            return $this->redirectToRoute('Villes') ;
+            return $this->redirectToRoute('objet_ville') ;
         }
 
         return $this->render('object/villes.html.twig',[
@@ -44,7 +44,7 @@ class ObjectController extends AbstractController
     }
 
     /**
-     * @Route("Campus", name="Campus")
+     * @Route("/admin/campus", name="objet_campus")
      */
     public function campus() : Response {
 

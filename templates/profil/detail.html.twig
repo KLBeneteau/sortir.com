@@ -11,7 +11,7 @@
         <ol>Nom: {{ user.nom }}</ol>
         <ol>Téléphone: {{ user.telephone }}</ol>
         <ol>Email : {{  user.email }}</ol>
-        <ol>Campus: {{ user.campus }}</ol>
+        <ol>Campus: {{ user.campus.nom }}</ol>
     </ul>
-    <a href="{{ path('main_home') }}" class="boutton">Retour</a>
+    <a href="{{ path('main_accueil') }}" class="boutton">Retour</a>
 {% endblock %}

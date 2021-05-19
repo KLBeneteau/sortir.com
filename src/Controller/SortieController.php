@@ -13,20 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SortieController extends AbstractController
 {
-    /**
-     * @Route("/sortie", name="sortie_list")
-     */
-    public function list(): Response
-    {
-        return $this->render('sortie/list.html.twig', [
-
-        ]);
-    }
 
     /**
-     * @Route("/sortie/creer", name="sortie_create")
+     * @Route("/sortie/creer", name="sortie_creer")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function creer(Request $request, EntityManagerInterface $entityManager): Response
     {
         $sortie = new Sortie();
 
@@ -51,10 +42,10 @@ class SortieController extends AbstractController
 
 
             $this->addFlash('success','Sortie ajoutée !');
-            return $this->redirectToRoute('sortie_create');
+            return $this->redirectToRoute('sortie_creer');
         }
 
-        return $this->render('sortie/create.html.twig', [
+        return $this->render('sortie/creer.html.twig', [
             'sortieForm'=>$sortieForm->createView()
         ]);
     }

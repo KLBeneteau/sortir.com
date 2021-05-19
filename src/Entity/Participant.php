@@ -206,12 +206,12 @@ class Participant implements UserInterface
         return $this;
     }
 
-    public function getCampus(): ?string
+    public function getCampus(): ?Campus
     {
         return $this->campus;
     }
 
-    public function setCampus(?string $campus): self
+    public function setCampus(?Campus $campus): self
     {
         $this->campus = $campus;
 
