@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un profil{% endblock %}
+
+
+
+{% block body %}
+    <div class="container">
+        <div class="img-profil">
+            {% if profil.photoProfil != null %}
+                <img src="{{ asset('upload/photos' ~ profil.photoProfil ) }}">
+
+            {% else %}
+                <img src="{{ asset('img/canard-profil.png') }}">
+            {% endif %}
+        </div>
+        <div class="formulaire">
+            <div class="contenu-form">
+                {#todo : création du formulaire#}
+                {{ form_start(profilForm) }}
+                {{ form_widget(profilForm) }}
+                <button class="annulation-btn">ANNULER</button>
+                <button class="validation-btn">ENREGISTRER</button>
+                {{ form_end(profilForm) }}
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

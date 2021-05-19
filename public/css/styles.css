@@ -1,0 +1,139 @@
+*
+{
+    font-family: 'Teko', sans-serif;
+    font-size: 1em;
+}
+a
+{
+    text-decoration: none;
+}
+
+.menu-ul{
+    list-style: none;
+    display: flex;
+    font-size: 1.3em;
+    float: right;
+}
+
+
+.menu-a
+{
+    color: #212121;
+    font-weight: bold;
+}
+.menu-a:hover
+{
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-color: #f5df4d;
+    text-decoration-thickness: 7px;
+    text-decoration-lenght: 10px;
+}
+
+.header
+{
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    height: 200px;
+}
+.logo-div
+{
+    display: inline-block;
+    width: 60%;
+}
+.nav-div
+{
+    display: inline-block;
+    width: 40%;
+}
+
+.container
+{
+    display: flex;
+    width: 80%;
+    margin: 0px auto;
+}
+.formulaire
+{
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+.contenu-form
+{
+display: block;
+}
+
+.annulation-btn
+{
+    border: 7px solid #212121;
+    transition: all 1s;
+    color: #212121;
+    padding: 20px 30px;
+    background-color: transparent;
+    margin: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.annulation-btn:hover
+{
+    border-radius: 50px;
+}
+
+.validation-btn
+{
+    border: 7px solid #f5df4d;
+    transition: all 1s;
+    color: #212121;
+    padding: 20px 30px;
+    background-color: transparent;
+    margin: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.validation-btn:hover
+{
+    border-radius: 50px;
+}
+
+.img-profil
+{
+    margin: 0 20px 0 0;
+}
+label
+{
+    font-size: 1.2em;
+    display: inline-block;
+    text-align: right;
+    margin-right: 10px;
+    width: 15%;
+}
+
+input,
+textarea,
+select{
+    border: 3px solid #212121;
+    background-color: transparent;
+    padding: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    color: #999999;
+    width: 60%;
+
+}
+
+input:hover,
+textarea:hover,
+select:hover{
+    border-style: dashed;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    outline:none;
+}
+
