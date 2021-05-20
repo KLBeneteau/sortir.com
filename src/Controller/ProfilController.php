@@ -26,6 +26,12 @@ class ProfilController extends AbstractController
         $profilForm->handleRequest($request);
 
         if ($profilForm->isSubmitted() && $profilForm->isValid()) {
+            $profil->setPassword(
+                $passwordEncoder->encodePassword(
+                    $profil,
+                    $profilForm->get('plainPassword')->getData()
+                )
+            );
             if ($photo = $profilForm['photo']->getData()) {
                 $photoProfil = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
                 try {
