@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\CreerProfilType;
-use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,11 +39,38 @@ class ProfilController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre profil a bien été créé');
-            return $this->redirectToRoute('main_accueil', ['id' => $profil->getId()]);
+            return $this->redirectToRoute('editer_profil', ['participant' => $profil->getId()]);
         }
         return $this->render('profil/creer-profil.html.twig', [
             'profilForm' => $profilForm->createView(),
             'profil' => $profil
+        ]);
+
+
+    }
+    /**
+     * @Route("/profil/editer/{participant}", name="editer_profil")
+     */
+    public function editerProfil(Request $request, ParticipantRepository $participantRepository, Participant $participant , string $photoDir): Response
+    {
+        $profilForm = $this->createForm(CreerProfilType::class, $participant);
+
+        $profilForm->handleRequest($request);
+        if ($profilForm->isSubmitted() && $profilForm->isValid()) {
+            if ($photo = $participant['photo']->getData()) {
+                $photoProfil = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
+                try {
+                    $photo->move($photoDir, $photoProfil);
+                    $participant->setPhotoProfil($photoProfil);
+                } catch (FileException $e) {
+                    // unable to upload the photo, give up
+                }
+            }
+
+        }
+        return $this->render('profil/creer-profil.html.twig', [
+            'profilForm' => $profilForm->createView(),
+            'profil' => $participant
         ]);
 
 
