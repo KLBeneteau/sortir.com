@@ -41,7 +41,7 @@ class ProfilController extends AbstractController
             $this->addFlash('success', 'Votre profil a bien été créé');
             return $this->redirectToRoute('profil_editer', ['participant' => $profil->getId()]);
         }
-        return $this->render('profil/creer-profil.html.twig', [
+        return $this->render('profil/gerer-profil.html.twig', [
             'profilForm' => $profilForm->createView(),
             'profil' => $profil
         ]);
@@ -68,7 +68,7 @@ class ProfilController extends AbstractController
             }
 
         }
-        return $this->render('profil/creer-profil.html.twig', [
+        return $this->render('profil/gerer-profil.html.twig', [
             'profilForm' => $profilForm->createView(),
             'profil' => $participant
         ]);
