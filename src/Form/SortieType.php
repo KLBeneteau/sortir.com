@@ -3,6 +3,7 @@
 namespace App\Form;
 
 
+use App\Entity\Campus;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -37,7 +38,7 @@ class SortieType extends AbstractType
                 'label'=>'Nombre de place :'
             ])
             ->add('duree', IntegerType::class, [
-                'label'=>'Durée :'
+                'label'=>'Durée en minutes :'
             ])
 
             ->add('infosSortie', TextareaType::class, [
@@ -48,8 +49,10 @@ class SortieType extends AbstractType
             ->add('lieu', EntityType::class, [
                 'label'=> 'Lieu :',
                 'class'=>Lieu::class,
-                'choice_label'=>'nom'
+                'choice_label'=>'nom',
             ])
+
+
         ;
     }
 

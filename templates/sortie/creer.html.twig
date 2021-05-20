@@ -6,29 +6,28 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 {% endblock %}
 {% block body %}
-    <h1>Créer une sortie</h1>
-    <div>
-        {{ form_start(sortieForm) }}
-            {{ form_row(sortieForm.nom) }}
-            {{ form_row(sortieForm.dateHeureDebut) }}
-            {{ form_row(sortieForm.dateLimiteInscription) }}
-            {{ form_row(sortieForm.nbInscriptionsMax) }}
-            {{ form_row(sortieForm.duree) }} minutes
-            {{ form_row(sortieForm.infosSortie) }}
-        <div>
-            <span> {{ form_row(sortieForm.lieu) }}  <button id="ajoutLieu"><i class="fa fa-plus-circle"></i></button></span>
-        </div>
-        <div>
-            <button type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
-            <button type="submit" name="submitAction" value="publier">Publier la sortie</button>
+    <div class="container">
+        <h1>Créer une sortie</h1>
+        Vous créez une sortie pour le campus de {{ app.user.campus.nom }} !
 
-        {{ form_end(sortieForm) }}
-
+            <div class="formulaire">
+                <div class="contenu-form">
+                    {{ form_start(sortieForm) }}
+                    {{ form_row(sortieForm.nom) }}
+                    {{ form_row(sortieForm.dateHeureDebut) }}
+                    {{ form_row(sortieForm.dateLimiteInscription) }}
+                    {{ form_row(sortieForm.nbInscriptionsMax) }}
+                    {{ form_row(sortieForm.duree) }}
+                    {{ form_row(sortieForm.infosSortie) }}
+                    {{ form_row(sortieForm.lieu) }}
+                    <button id="ajoutLieu"><i class="fa fa-plus-circle"></i></button>
+                    <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
+                    <button class="validation-btn" type="submit" name="submitAction" value="publier">Publier la sortie</button>
+                    <button class="annulation-btn" type="submit"  formaction="{{ path('main_accueil') }}">Annuler</button>
+                {{ form_end(sortieForm) }}
+                </div>
         </div>
     </div>
-    <div>
-    <form>
-    <button type="submit"  formaction="{{ path('app_login') }}">Annuler</button>
-    </form>
-    </div>
+
+
 {% endblock %}
