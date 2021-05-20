@@ -18,18 +18,39 @@
             <th>Actions</th>
         </tr>
         {% for ville in villeList %}
-            <tr>
-                <th>{{ ville.nom }}</th>
-                <th>{{ ville.codePostal }}</th>
-                <th>todo : modifier - supprimer</th>
-            </tr>
+            {% if idVilleAModifier == ville.id %}
+                {{ form_start(villeForm) }}
+                <tr>
+                    <th>{{ form_widget(villeForm.nom) }}</th>
+                    <th>{{ form_widget(villeForm.codePostal) }}</th>
+                    <th>
+                        <input type="hidden" value="{{ ville.id }}" name="Modifier">
+                        <button type="submit" name="submitAction" value="Confirmer">Confirmer</button>
+                        <button type="submit" name="submitAction" value="Annuler">Annuler</button>
+                    </th>
+                </tr>
+                {{ form_end(villeForm) }}
+            {% else %}
+                <tr>
+                    <th>{{ ville.nom }}</th>
+                    <th>{{ ville.codePostal }}</th>
+                    <th>
+                        <form method="post" action=" {{ path('objet_ville') }}">
+                            <button type="submit" name="Modifier" value="{{ ville.id }}">Modifier</button>
+                            <button type="submit" name="Supprimer" value="{{ ville.id }}">Supprimer</button>
+                        </form>
+                    </th>
+                </tr>
+            {% endif %}
         {% endfor %}
-        <tr>
-            {{ form_start(villeForm) }}
-            <th>{{ form_widget(villeForm.nom) }}</th>
-            <th>{{ form_widget(villeForm.codePostal) }}</th>
-            <th><button>Ajouter</button></th>
-            {{ form_end(villeForm) }}
-        </tr>
+        {% if idVilleAModifier is null %}
+            <tr>
+                {{ form_start(villeForm) }}
+                <th>{{ form_widget(villeForm.nom) }}</th>
+                <th>{{ form_widget(villeForm.codePostal) }}</th>
+                <th><button type="submit" name="submitAction" value="Ajouter">Ajouter</button></th>
+                {{ form_end(villeForm) }}
+            </tr>
+        {% endif %}
     </table>
 {% endblock %}

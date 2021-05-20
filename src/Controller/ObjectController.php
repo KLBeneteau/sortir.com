@@ -22,23 +22,38 @@ class ObjectController extends AbstractController
     public function ville(Request $request,VilleRepository $villeRepository,EntityManagerInterface $entityManager) : Response {
 
         $villeList = $villeRepository->findAvecFiltre($request->get('filtre')) ;
-        dump($request->get('filtre'));
 
         $ville = new Ville() ;
+
+        $idVilleAModifier = $request->get('Modifier') ;
+        if ($request->get('Modifier')) {
+            $ville = $villeRepository->find($request->get('Modifier')) ;
+        }
+
         $villeForm =$this->createForm(VilleType::class, $ville) ;
 
         $villeForm->handleRequest($request);
 
-        if($villeForm->isSubmitted() && $villeForm->isValid()) {
-            $entityManager->persist($ville);
+        if ($request->get('Supprimer')) {
+            $entityManager->remove($villeRepository->find($request->get('Supprimer')));
             $entityManager->flush();
 
             return $this->redirectToRoute('objet_ville') ;
         }
 
+        if($villeForm->isSubmitted() && $villeForm->isValid()) {
+            switch ($request->get('submitAction')) {
+                case 'Ajouter' :   $entityManager->persist($ville);
+                case 'Confirmer' :  $entityManager->flush();
+                case 'Annuler' :
+            }
+            return $this->redirectToRoute('objet_ville') ;
+        }
+
         return $this->render('object/villes.html.twig',[
             'villeList' => $villeList ,
-            'villeForm' => $villeForm->createView()
+            'villeForm' => $villeForm->createView(),
+            'idVilleAModifier' =>  $idVilleAModifier
         ]) ;
 
     }
