@@ -4,8 +4,11 @@
 namespace App\Controller;
 
 
+use App\Entity\Campus;
 use App\Entity\Ville;
+use App\Form\CampusType;
 use App\Form\VilleType;
+use App\Repository\CampusRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,7 +48,7 @@ class ObjectController extends AbstractController
             switch ($request->get('submitAction')) {
                 case 'Ajouter' :   $entityManager->persist($ville);
                 case 'Confirmer' :  $entityManager->flush();
-                case 'Annuler' :
+                case 'Annuler' : break ;
             }
             return $this->redirectToRoute('objet_ville') ;
         }
@@ -61,9 +64,42 @@ class ObjectController extends AbstractController
     /**
      * @Route("/admin/campus", name="objet_campus")
      */
-    public function campus() : Response {
+    public function campus(Request $request,CampusRepository $campusRepository,EntityManagerInterface $entityManager) : Response {
 
-        return $this->render('object/campus.html.twig') ;
+        $campusList = $campusRepository->findAvecFiltre($request->get('filtre')) ;
+
+        $campus = new Campus() ;
+
+        $idCampusAModifier = $request->get('Modifier') ;
+        if ($request->get('Modifier')) {
+            $campus = $campusRepository->find($request->get('Modifier')) ;
+        }
+
+        $campusForm =$this->createForm(CampusType::class, $campus) ;
+
+        $campusForm->handleRequest($request);
+
+        if ($request->get('Supprimer')) {
+            $entityManager->remove($campusRepository->find($request->get('Supprimer')));
+            $entityManager->flush();
+
+            return $this->redirectToRoute('objet_campus') ;
+        }
+
+        if($campusForm->isSubmitted() && $campusForm->isValid()) {
+            switch ($request->get('submitAction')) {
+                case 'Ajouter' :   $entityManager->persist($campus);
+                case 'Confirmer' :  $entityManager->flush();
+                case 'Annuler' : break ;
+            }
+            return $this->redirectToRoute('objet_campus') ;
+        }
+
+        return $this->render('object/campus.html.twig',[
+            'campusList' => $campusList ,
+            'campusForm' => $campusForm->createView(),
+            'idCampusAModifier' =>  $idCampusAModifier
+        ]) ;
 
     }
 

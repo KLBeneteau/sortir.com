@@ -1,1 +1,52 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} : Gestions Campus
+{% endblock %}
+
+{% block body %}
+    <h3>Filtrer les campus</h3>
+    <form method="post" action="{{ path('objet_campus') }}">
+        <label for="filtre">Le nom contient : </label>
+        <input type="text" name="filtre" id="filtre">
+        <input type="submit" value="Rechercher">
+    </form>
+    <table border="1">
+        <tr>
+            <th>Campus</th>
+            <th>Actions</th>
+        </tr>
+        {% for campus in campusList %}
+            {% if idCampusAModifier == campus.id %}
+                {{ form_start(campusForm) }}
+                <tr>
+                    <th>{{ form_widget(campusForm.nom) }}</th>
+                    <th>
+                        <input type="hidden" value="{{ campus.id }}" name="Modifier">
+                        <button type="submit" name="submitAction" value="Confirmer">Confirmer</button>
+                        <button type="submit" name="submitAction" value="Annuler">Annuler</button>
+                    </th>
+                </tr>
+                {{ form_end(campusForm) }}
+            {% else %}
+                <tr>
+                    <th>{{ campus.nom }}</th>
+                    <th>
+                        <form method="post" action=" {{ path('objet_campus') }}">
+                            <button type="submit" name="Modifier" value="{{ campus.id }}">Modifier</button>
+                            <button type="submit" name="Supprimer" value="{{ campus.id }}">Supprimer</button>
+                        </form>
+                    </th>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        {% if idCampusAModifier is null %}
+            <tr>
+                {{ form_start(campusForm) }}
+                <th>{{ form_widget(campusForm.nom) }}</th>
+                <th><button type="submit" name="submitAction" value="Ajouter">Ajouter</button></th>
+                {{ form_end(campusForm) }}
+            </tr>
+        {% endif %}
+    </table>
+{% endblock %}
