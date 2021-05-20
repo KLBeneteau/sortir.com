@@ -35,8 +35,8 @@ class CreerProfilType extends AbstractType
             ->add('campus', EntityType::class,[
                 'label' => 'Campus',
                 'class' => Campus::class,
+                'attr' => ['class' => 'campus-select'],
                 'choice_label' => 'nom'
-
             ])
             ->add('photo', FileType::class, [
                 'required' => false,

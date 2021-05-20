@@ -16,9 +16,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ProfilController extends AbstractController
 {
     /**
-     * @Route("/profil/creerProfil", name="profil_creerProfil")
+     * @Route("/profil/gerer", name="profil_gerer")
      */
-    public function creerProfil(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, string $photoDir): Response
+    public function gerer(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, string $photoDir): Response
     {
         $profil = new Participant();
         $profilForm = $this->createForm(CreerProfilType::class, $profil);
@@ -39,7 +39,7 @@ class ProfilController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre profil a bien été créé');
-            return $this->redirectToRoute('editer_profil', ['participant' => $profil->getId()]);
+            return $this->redirectToRoute('profil_editer', ['participant' => $profil->getId()]);
         }
         return $this->render('profil/creer-profil.html.twig', [
             'profilForm' => $profilForm->createView(),
@@ -49,9 +49,9 @@ class ProfilController extends AbstractController
 
     }
     /**
-     * @Route("/profil/editer/{participant}", name="editer_profil")
+     * @Route("/profil/editer/{participant}", name="profil_editer")
      */
-    public function editerProfil(Request $request, ParticipantRepository $participantRepository, Participant $participant , string $photoDir): Response
+    public function editer(Request $request, ParticipantRepository $participantRepository, Participant $participant , string $photoDir): Response
     {
         $profilForm = $this->createForm(CreerProfilType::class, $participant);
 

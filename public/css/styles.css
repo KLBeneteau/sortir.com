@@ -103,6 +103,24 @@ display: block;
 {
     margin: 0 20px 0 0;
 }
+select
+{
+    border: 3px solid #212121;
+    background: url("/public/img/arrow.png") no-repeat right;
+    padding: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    color: #212121;
+    width: 60%;
+    cursor: none;
+    font-size: 1.2em;
+}
+select:hover
+{
+    color: #f5df4d;
+}
+
+
 label
 {
     font-size: 1.2em;
@@ -112,9 +130,18 @@ label
     width: 15%;
 }
 
+.flash{
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+}
+.flash-success{
+
+    background-color: #acd9ca;
+    padding: 10px 20px;
+}
+
 input,
-textarea,
-select{
+textarea{
     border: 3px solid #212121;
     background-color: transparent;
     padding: 5px;
