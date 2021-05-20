@@ -13,8 +13,9 @@
             {{ form_row(sortieForm.dateHeureDebut) }}
             {{ form_row(sortieForm.dateLimiteInscription) }}
             {{ form_row(sortieForm.nbInscriptionsMax) }}
-            {{ form_row(sortieForm.duree) }} minutes
+            {{ form_row(sortieForm.duree) }}
             {{ form_row(sortieForm.infosSortie) }}
+            {{ form_row(sortieForm.campus) }}
         <div>
             <span> {{ form_row(sortieForm.lieu) }}  <button id="ajoutLieu"><i class="fa fa-plus-circle"></i></button></span>
         </div>
@@ -28,7 +29,7 @@
     </div>
     <div>
     <form>
-    <button type="submit"  formaction="{{ path('app_login') }}">Annuler</button>
+    <button type="submit"  formaction="{{ path('main_accueil') }}">Annuler</button>
     </form>
     </div>
 {% endblock %}

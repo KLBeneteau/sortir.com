@@ -29,10 +29,10 @@ class SortieController extends AbstractController
             $etatRepository = $entityManager ->getRepository(Etat::class);
 
             if ($request->get('submitAction') == 'enregistrer') {
-                $sortie->setEtat($etat = $etatRepository ->find('3'));
+                $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Créée"]));
             }else {
                 if ($request->get('submitAction') == 'publier') {
-                    $sortie->setEtat($etat = $etatRepository ->find('4'));
+                    $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Ouverte"]));
                 }
             }
 
