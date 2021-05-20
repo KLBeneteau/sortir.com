@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,8 @@ class SortieController extends AbstractController
      */
     public function creer(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+
         $sortie = new Sortie();
 
         $sortieForm = $this->createForm(SortieType::class, $sortie);
@@ -27,6 +30,8 @@ class SortieController extends AbstractController
 
         if($sortieForm->isSubmitted()){
             $etatRepository = $entityManager ->getRepository(Etat::class);
+
+            $sortie->setCampus($user->getCampus());
 
             if ($request->get('submitAction') == 'enregistrer') {
                 $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Créée"]));
@@ -46,7 +51,8 @@ class SortieController extends AbstractController
         }
 
         return $this->render('sortie/creer.html.twig', [
-            'sortieForm'=>$sortieForm->createView()
+            'sortieForm'=>$sortieForm->createView(),
+            'user'=>$user
         ]);
     }
 }
