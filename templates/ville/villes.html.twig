@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} : Gestions Villes
+    {{ parent() }} : Gestions Ville
 {% endblock %}
 
 {% block body %}
     <h3>Filtrer les villes</h3>
-    <form method="post" action="{{ path('objet_ville') }}">
+    <form method="post" action="{{ path('ville_create') }}">
         <label for="filtre">Le nom contient : </label>
         <input type="text" name="filtre" id="filtre">
         <input type="submit" value="Rechercher">
@@ -14,30 +14,36 @@
     <table border="1">
         <tr>
             <th>Ville</th>
-            <th>Code Postale</th>
+            <th>Code Postal</th>
             <th>Actions</th>
         </tr>
         {% for ville in villeList %}
             {% if idVilleAModifier == ville.id %}
-                {{ form_start(villeForm) }}
                 <tr>
+                    {{ form_start(villeForm) }}
                     <th>{{ form_widget(villeForm.nom) }}</th>
                     <th>{{ form_widget(villeForm.codePostal) }}</th>
                     <th>
-                        <input type="hidden" value="{{ ville.id }}" name="Modifier">
-                        <button type="submit" name="submitAction" value="Confirmer">Confirmer</button>
-                        <button type="submit" name="submitAction" value="Annuler">Annuler</button>
+                        <button type="submit" name="ville_id" value="{{ ville.id }}">Confirmer</button>
+                        {{ form_end(villeForm) }}
+                        <form method="post" action="{{ path('ville_create') }}">
+                            <button type="submit">Annuler</button>
+                        </form>
                     </th>
                 </tr>
-                {{ form_end(villeForm) }}
+
             {% else %}
                 <tr>
                     <th>{{ ville.nom }}</th>
                     <th>{{ ville.codePostal }}</th>
                     <th>
-                        <form method="post" action=" {{ path('objet_ville') }}">
-                            <button type="submit" name="Modifier" value="{{ ville.id }}">Modifier</button>
-                            <button type="submit" name="Supprimer" value="{{ ville.id }}">Supprimer</button>
+                        <form method="post" action=" {{ path('ville_update') }}">
+                            <input type="hidden" name="ville_id" value="{{ ville.id }}"/>
+                            <button type="submit" name="ville_id" value="{{ ville.id }}" >Modifier</button>
+                        </form>
+                        <form method="post" action=" {{ path('ville_delete') }}">
+                            <input type="hidden" name="ville_id" value="{{ ville.id }}"/>
+                            <button type="submit">Supprimer</button>
                         </form>
                     </th>
                 </tr>
@@ -48,7 +54,7 @@
                 {{ form_start(villeForm) }}
                 <th>{{ form_widget(villeForm.nom) }}</th>
                 <th>{{ form_widget(villeForm.codePostal) }}</th>
-                <th><button type="submit" name="submitAction" value="Ajouter">Ajouter</button></th>
+                <th><button type="submit">Ajouter</button></th>
                 {{ form_end(villeForm) }}
             </tr>
         {% endif %}
