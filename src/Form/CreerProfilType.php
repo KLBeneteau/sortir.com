@@ -56,6 +56,7 @@ class CreerProfilType extends AbstractType
             ->add('photo', FileType::class, [
                 'required' => false,
                 'mapped' => false,
+                'attr' => ['class' => 'champ-photo'],
                 'label' => 'Photo de profil',
                 'constraints' => [
                     new Image(['maxSize' => '1024k'])

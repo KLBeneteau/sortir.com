@@ -6,12 +6,13 @@
 
 {% block body %}
     <div class="container">
-        <div class="img-profil">
+        <div class="img-profil-div">
             {% if profil.photoProfil != null %}
-                <img src="{{ asset('uploads/photos/' ~ profil.photoProfil ) }}">
+                {% set runtimeConfig = {"thumbnail": {"size": [50, 50] }} %}
+                <img class="img-profil" src="{{ asset('uploads/photos/' ~ profil.photoProfil)}}">
 
             {% else %}
-                <img src="{{ asset('img/canard-profil.png') }}">
+                <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
             {% endif %}
         </div>
         <div class="formulaire">

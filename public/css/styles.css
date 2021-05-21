@@ -99,9 +99,29 @@ display: block;
     border-radius: 50px;
 }
 
-.img-profil
+.img-profil-div
 {
     margin: 0 20px 0 0;
+}
+.img-profil
+{
+    width: 300px;
+    height: 300px;
+}
+.champ-photo
+{
+    background-color: #f5df4d;
+    transition: all 1s;
+    color: white;
+    padding: 20px 30px;
+    margin: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-style: none;
+}
+.champ-photo:hover
+{
+    border-style: none;
 }
 select
 {
