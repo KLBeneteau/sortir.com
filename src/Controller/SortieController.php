@@ -28,7 +28,7 @@ class SortieController extends AbstractController
 
         $sortieForm->handleRequest($request);
 
-        if($sortieForm->isSubmitted()){
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
             $etatRepository = $entityManager ->getRepository(Etat::class);
 
             $sortie->setCampus($user->getCampus());

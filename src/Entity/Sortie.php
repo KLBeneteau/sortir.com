@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SortieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -18,31 +19,50 @@ class Sortie
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Donne un nom à ta sortie !")
+     * @Assert\Length(max=255, maxMessage="Donne un nom un peu plus court à ta sortie!")
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     * @Assert\NotBlank(message="La date et heure de la sortie sont obligatoires.")
      * @ORM\Column(type="datetime")
      */
     private $dateHeureDebut;
 
     /**
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Donne la durée de ta sortie en minutes, sans virgule !"
+     * )
+     * @Assert\NotBlank(message="La durée est obligatoire.")
      * @ORM\Column(type="integer")
      */
     private $duree;
 
     /**
+     * @Assert\LessThan(
+     *     propertyPath="dateHeureDebut",
+     *     message="La date limite d'inscription doit être antérieure à la date de la sortie !"
+     * )
+     * @Assert\NotBlank(message="La date limite d'inscriptions est obligatoire.")
      * @ORM\Column(type="datetime")
      */
     private $dateLimiteInscription;
 
     /**
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Difficile de se couper en deux ! Rentre un chiffre entier !"
+     * )
+     * @Assert\NotBlank(message="Le nombre max d'inscriptions est obligatoire.")
      * @ORM\Column(type="integer")
      */
     private $nbInscriptionsMax;
 
     /**
+     * @Assert\Length(min=2, minMessage="Tu peux nous en dire un peu plus ?")
      * @ORM\Column(type="text", nullable=true)
      */
     private $infosSortie;

@@ -19,10 +19,14 @@ class VilleRepository extends ServiceEntityRepository
         parent::__construct($registry, Ville::class);
     }
 
-    public function findAvecFiltre(String $nomVille=null) {
+    public function findAvecFiltre(String $nom=null) {
 
-        if($nomVille)
-            return $this->findBy(['nom'=>$nomVille]) ;
+        if($nom)
+            return $this->createQueryBuilder('o')
+                ->where('o.nom LIKE ?1')
+                ->setParameter(1, '%'.$nom.'%')
+                ->getQuery()
+                ->getResult();
         else
             return  $this->findAll();
     }
