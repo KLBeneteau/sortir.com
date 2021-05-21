@@ -6,7 +6,7 @@
 
 {% block body %}
     <h3>Filtrer les campus</h3>
-    <form method="post" action="{{ path('objet_campus') }}">
+    <form method="post" action="{{ path('campus_create') }}">
         <label for="filtre">Le nom contient : </label>
         <input type="text" name="filtre" id="filtre">
         <input type="submit" value="Rechercher">
@@ -18,23 +18,29 @@
         </tr>
         {% for campus in campusList %}
             {% if idCampusAModifier == campus.id %}
-                {{ form_start(campusForm) }}
                 <tr>
+                    {{ form_start(campusForm) }}
                     <th>{{ form_widget(campusForm.nom) }}</th>
                     <th>
-                        <input type="hidden" value="{{ campus.id }}" name="Modifier">
-                        <button type="submit" name="submitAction" value="Confirmer">Confirmer</button>
-                        <button type="submit" name="submitAction" value="Annuler">Annuler</button>
+                        <button type="submit" name="campus_id" value="{{ campus.id }}">Confirmer</button>
+                        {{ form_end(campusForm) }}
+                        <form method="post" action="{{ path('campus_create') }}">
+                            <button type="submit">Annuler</button>
+                        </form>
                     </th>
                 </tr>
-                {{ form_end(campusForm) }}
+
             {% else %}
                 <tr>
                     <th>{{ campus.nom }}</th>
                     <th>
-                        <form method="post" action=" {{ path('objet_campus') }}">
-                            <button type="submit" name="Modifier" value="{{ campus.id }}">Modifier</button>
-                            <button type="submit" name="Supprimer" value="{{ campus.id }}">Supprimer</button>
+                        <form method="post" action=" {{ path('campus_update') }}">
+                            <input type="hidden" name="campus_id" value="{{ campus.id }}"/>
+                            <button type="submit" name="campus_id" value="{{ campus.id }}" >Modifier</button>
+                        </form>
+                        <form method="post" action=" {{ path('campus_delete') }}">
+                            <input type="hidden" name="campus_id" value="{{ campus.id }}"/>
+                            <button type="submit">Supprimer</button>
                         </form>
                     </th>
                 </tr>
@@ -44,7 +50,7 @@
             <tr>
                 {{ form_start(campusForm) }}
                 <th>{{ form_widget(campusForm.nom) }}</th>
-                <th><button type="submit" name="submitAction" value="Ajouter">Ajouter</button></th>
+                <th><button type="submit">Ajouter</button></th>
                 {{ form_end(campusForm) }}
             </tr>
         {% endif %}
