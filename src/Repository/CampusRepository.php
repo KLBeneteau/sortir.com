@@ -22,7 +22,11 @@ class CampusRepository extends ServiceEntityRepository
     public function findAvecFiltre(String $nom=null) {
 
         if($nom)
-            return $this->findBy(['nom'=>$nom]) ;
+            return $this->createQueryBuilder('o')
+                ->where('o.nom LIKE ?1')
+                ->setParameter(1, '%'.$nom.'%')
+                ->getQuery()
+                ->getResult();
         else
             return  $this->findAll();
     }
