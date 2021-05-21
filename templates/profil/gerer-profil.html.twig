@@ -8,10 +8,11 @@
     <div class="container">
         <div class="img-profil">
             {% if profil.photoProfil != null %}
-                <img src="{{ asset('uploads/photos/' ~ profil.photoProfil ) }}">
+                {% set runtimeConfig = {"thumbnail": {"size": [50, 50] }} %}
+                <img src="{{ asset('uploads/photos/' ~ profil.photoProfil )| imagine_filter('my_thumb_filter') }}">
 
             {% else %}
-                <img src="{{ asset('img/canard-profil.png') }}">
+                <img src="{{ asset('img/canard-profil.png')| imagine_filter('my_thumb_filter')}}">
             {% endif %}
         </div>
         <div class="formulaire">
