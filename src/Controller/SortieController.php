@@ -38,11 +38,10 @@ class SortieController extends AbstractController
                 $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Créée"]));
                 $this->addFlash('warning',"Ta sortie est enregistrée ! Pense à la publier ;)");
             }else {
-                if ($request->get('submitAction') == 'publier') {
                     $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Ouverte"]));
                     $this->addFlash('success', "Ta sortie a bien été ajoutée !");
                 }
-            }
+
 
             $entityManager->persist($sortie);
             $entityManager->flush();

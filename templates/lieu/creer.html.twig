@@ -7,8 +7,9 @@
             {{ form_start(lieuForm) }}
             {{ form_widget(lieuForm) }}
             <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer le lieu</button>
-            <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer le lieu</button>
+            <button class="annulation-btn" type="submit"  formaction="{{ path('sortie_creer') }}">Annuler</button>
             {{ form_end(lieuForm) }}
+
         </div>
     </div>
 </div>
