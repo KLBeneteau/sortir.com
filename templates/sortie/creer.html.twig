@@ -3,7 +3,6 @@
 {% block title %}{{ parent() }} | Créer une sortie {% endblock %}
 {% block stylesheets %}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 {% endblock %}
 {% block body %}
     <div class="container">
@@ -13,14 +12,22 @@
             <div class="formulaire">
                 <div class="contenu-form">
                     {{ form_start(sortieForm) }}
+                    {{ form_row(sortieForm.lieu) }}
+                    <a href="{{ path('lieu_creer') }}" class="href"><strong>Si ton lieu n'est pas encore créé : ajoute-le !</strong></a>
+                    <br>
+                    {%  if sortie.lieu %}
+                        Rue : {{ sortie.lieu.rue }}<br>
+                        Ville : {{ sortie.lieu.ville.nom }}<br>
+                        Latitude : {{ sortie.lieu.latitude }}<br>
+                        Longitude : {{ sortie.lieu.longitude }}<br>
+                    {% endif %}
                     {{ form_row(sortieForm.nom) }}
                     {{ form_row(sortieForm.dateHeureDebut) }}
                     {{ form_row(sortieForm.dateLimiteInscription) }}
                     {{ form_row(sortieForm.nbInscriptionsMax) }}
                     {{ form_row(sortieForm.duree) }}
                     {{ form_row(sortieForm.infosSortie) }}
-                    {{ form_row(sortieForm.lieu) }}
-                    <button id="ajoutLieu"><i class="fa fa-plus-circle"></i></button>
+
                     <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
                     <button class="validation-btn" type="submit" name="submitAction" value="publier">Publier la sortie</button>
                     <button class="annulation-btn" type="submit"  formaction="{{ path('main_accueil') }}">Annuler</button>
