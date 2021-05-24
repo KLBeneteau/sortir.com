@@ -6,11 +6,11 @@
             <li class="menu-li">&ensp;&ensp;|&ensp;</li>
 
             {% if is_granted ("ROLE_ADMIN") %}
-                <li class="menu-li"><a class="menu-a" href="{{ path('objet_ville') }}" title="Villes">Villes</a></li>
+                <li class="menu-li"><a class="menu-a" href="{{ path('ville_create') }}" title="Villes">Villes</a></li>
                 <li class="menu-li">&ensp;&ensp;|&ensp;</li>
-                <li class="menu-li"><a class="menu-a" href="{{ path('objet_campus') }}" title="Campus">Campus</a></li>
+                <li class="menu-li"><a class="menu-a" href="{{ path('campus_create') }}" title="Campus">Campus</a></li>
                 <li class="menu-li">&ensp;&ensp;|&ensp;</li>
-                <li class="menu-li"><a class="menu-a" href="{{ path('profil_gerer') }}" title="Créer un profil">Créer un profil</a></li>
+                <li class="menu-li"><a class="menu-a" href="{{ path('profil_creer') }}" title="Créer un profil">Créer un profil</a></li>
                 <li class="menu-li">&ensp;&ensp;|&ensp;</li>
             {% endif %}
 
