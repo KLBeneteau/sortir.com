@@ -19,4 +19,13 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+    /**
+     * Fonction qui récupère les sorties avec une recherche.
+     * @return Sortie[]
+     */
+    public function recherchesSorties(): array
+    {
+        return $this->findAll();
+    }
+
 }
