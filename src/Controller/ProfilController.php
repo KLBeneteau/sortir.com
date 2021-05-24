@@ -29,24 +29,27 @@ class ProfilController extends AbstractController
 
     }
     /**
-     * @Route("/profil/gerer", name="profil_gerer")
+     * @Route("/profil/creer", name="profil_creer")
+     * @Route("/profil/gerer/{id}", name="profil_gerer")
      */
     public function gerer(
         Request $request,
+        Participant $participant = null,
         ParticipantRepository $participantRepository,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        //  $participantRepository->findAll();
-        $profil = new Participant();
-        $profilForm = $this->createForm(CreerProfilType::class, $profil);
+        if (!$participant){
+            $participant = new Participant();
+        }
+        $profilForm = $this->createForm(CreerProfilType::class, $participant);
 
         $profilForm->handleRequest($request);
 
         if ($profilForm->isSubmitted() && $profilForm->isValid()) {
-            $profil->setPassword(
+            $participant->setPassword(
                 $passwordEncoder->encodePassword(
-                    $profil,
+                    $participant,
                     $profilForm->get('plainPassword')->getData()
                 )
             );
@@ -59,15 +62,15 @@ class ProfilController extends AbstractController
                     // unable to upload the photo, give up
                 }
             }*/
-            $entityManager->persist($profil);
+            $entityManager->persist($participant);
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre profil a bien été créé');
-            return $this->redirectToRoute('profil_editer', ['participant' => $profil->getId()]);
+            return $this->redirectToRoute('profil_editer', ['participant' => $participant->getId()]);
         }
         return $this->render('profil/gerer-profil.html.twig', [
             'profilForm' => $profilForm->createView(),
-            'profil' => $profil
+            'profil' => $participant
         ]);
 
 
