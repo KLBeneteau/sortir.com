@@ -195,3 +195,8 @@ h1
     font-size: x-large;
     text-align:center;
 }
+
+#col {
+    font-size: large;
+    column-count: 2;
+}
