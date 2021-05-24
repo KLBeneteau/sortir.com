@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="formulaire">
+        <div class="contenu-form">
+            {{ form_start(lieuForm) }}
+            {{ form_widget(lieuForm) }}
+            <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer le lieu</button>
+
+            {{ form_end(lieuForm) }}
+            <a href="{{ path('sortie_creer') }}" class="boutton"> <button class="annulation-btn">Annuler</button></a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

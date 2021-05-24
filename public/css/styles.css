@@ -184,3 +184,14 @@ select:focus{
     outline:none;
 }
 
+h1
+{
+    font-size:3em;
+    text-align:center;
+}
+
+#description
+{
+    font-size: x-large;
+    text-align:center;
+}
