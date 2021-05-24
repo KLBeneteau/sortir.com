@@ -5,22 +5,20 @@
 
 {% endblock %}
 {% block body %}
-    <div class="container">
-        <h1>Créer une sortie</h1>
-        Vous créez une sortie pour le campus de {{ app.user.campus.nom }} !
 
+    <div>
+        <h1>Créer une sortie</h1>
+        <p id="description">Vous créez une sortie pour le campus de {{ app.user.campus.nom }} !</p>
+    </div>
+    <div class="container">
             <div class="formulaire">
                 <div class="contenu-form">
                     {{ form_start(sortieForm) }}
                     {{ form_row(sortieForm.lieu) }}
                     <a href="{{ path('lieu_creer') }}" class="href"><strong>Si ton lieu n'est pas encore créé : ajoute-le !</strong></a>
                     <br>
-                    {%  if sortie.lieu %}
-                        Rue : {{ sortie.lieu.rue }}<br>
-                        Ville : {{ sortie.lieu.ville.nom }}<br>
-                        Latitude : {{ sortie.lieu.latitude }}<br>
-                        Longitude : {{ sortie.lieu.longitude }}<br>
-                    {% endif %}
+
+
                     {{ form_row(sortieForm.nom) }}
                     {{ form_row(sortieForm.dateHeureDebut) }}
                     {{ form_row(sortieForm.dateLimiteInscription) }}
@@ -30,9 +28,10 @@
 
                     <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
                     <button class="validation-btn" type="submit" name="submitAction" value="publier">Publier la sortie</button>
-                    <button class="annulation-btn" type="submit"  formaction="{{ path('main_accueil') }}">Annuler</button>
-                {{ form_end(sortieForm) }}
+                    {{ form_end(sortieForm) }}
                 </div>
+                <a href="{{ path('main_accueil') }}" class="boutton"> <button class="annulation-btn">Annuler</button></a>
+
         </div>
     </div>
 
