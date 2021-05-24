@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Mon Profil {% endblock %}
+
+{% block body %}
+    <h3>Mon profil</h3>
+    <div class="info-profil">
+        <ul>
+            <li>Prénom  : {{ monProfil.prenom }}</li>
+            <li>Nom: {{ monProfil.nom }}</li>
+            <li>Téléphone: {{ monProfil.telephone }}</li>
+            <li>Email : {{  monProfil.email }}</li>
+            <li>Campus: {{ monProfil.campus.nom }}</li>
+        </ul>
+    </div>
+    <a class="annulation-btn" href="{{ path('main_accueil') }}" class="boutton">Retour</a>
+    <a class="validation-btn" href="{{ path('profil_gerer') }}" class="boutton">Modifier</a>
+{% endblock %}
