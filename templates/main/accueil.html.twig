@@ -1,5 +1,6 @@
 {% extends 'base.html.twig'%}
 
+{% block title%}Toutes les sorties{% endblock %}
 {% block body %}
         <div>
             <p>Date du jour : {{ "now" | date('d/m/Y') }}</p>
@@ -8,21 +9,29 @@
 
 
             <h2>Filtrer les sorties</h2>
-    <form action="" method="post">
-        <label for="list_campus">Campus : </label>
-        <select name="" id=""></select><br>
-        <label for="filtre2">Le nom de la sortie contient :</label>
-        <input type="text" name="filtre2" id="filtre2"><br>
-        <label for="">Entre</label>
-        <input type="date"><br>
-        <label for="">Et</label>
-        <input type="date">
 
-        <input type="submit" value="Rechercher">
-    </form>
+
+            {{ form(sortiesForm) }}
+
+
+    {# <!--<form action="{{ path('main_accueil') }}" method="post"> </form>-->  #}
 
 
 
 
+<div>
+    <tr>
+        <td>Nom de la sortie</td>
+        <td>Date de la sortie</td>
+        <td>Clôture</td>
+        <td>Inscrits/Places</td>
+        <td>Etat</td>
+        <td>Inscrit</td>
+        <td>Organisateur</td>
+        <td>Actions</td>
+    </tr>
+</div>
+
+    <button onclick="window.location.href = '/sortie/creer';">Créer une sortie</button>
 {% endblock %}
 
