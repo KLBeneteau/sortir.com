@@ -14,15 +14,14 @@
                 <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
             {% endif %}
         </div>
-        <div class="formulaire">
-            <div class="contenu-form">
-                {{ form_start(profilForm) }}
-                {{ form_widget(profilForm) }}
-                <button class="annulation-btn" type="reset" value="annuler" >ANNULER</button>
-                <button class="validation-btn" type="submit" value="enregistrer">ENREGISTRER</button>
-                {{ form_end(profilForm) }}
-            </div>
-
+        <div class="info-profil">
+            <ul>
+                <li>Prénom  : {{ profil.prenom }}</li>
+                <li>Nom: {{ profil.nom }}</li>
+                <li>Téléphone: {{ profil.telephone }}</li>
+                <li>Email : {{  profil.email }}</li>
+                <li>Campus: {{ profil.campus.nom }}</li>
+            </ul>
         </div>
 
     </div>

@@ -6,6 +6,7 @@ use App\Entity\Participant;
 use App\Form\CreerProfilType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +17,27 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ProfilController extends AbstractController
 {
     /**
+     * @Route("profil/consulter/{id}", name="consulter")
+     */
+    public function consulter(
+        int $id,
+        ParticipantRepository $participantRepository) : Response {
+
+        $monProfil = $participantRepository->find($id);
+
+        return $this->render('profil/profil.html.twig', compact('monProfil')) ;
+
+    }
+    /**
      * @Route("/profil/gerer", name="profil_gerer")
      */
-    public function gerer(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder, string $photoDir): Response
+    public function gerer(
+        Request $request,
+        ParticipantRepository $participantRepository,
+        EntityManagerInterface $entityManager,
+        UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        //  $participantRepository->findAll();
         $profil = new Participant();
         $profilForm = $this->createForm(CreerProfilType::class, $profil);
 
@@ -32,7 +50,7 @@ class ProfilController extends AbstractController
                     $profilForm->get('plainPassword')->getData()
                 )
             );
-            if ($photo = $profilForm['photo']->getData()) {
+            /*if ($photo = $profilForm['photo']->getData()) {
                 $photoProfil = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
                 try {
                     $photo->move($photoDir, $photoProfil);
@@ -40,7 +58,7 @@ class ProfilController extends AbstractController
                 } catch (FileException $e) {
                     // unable to upload the photo, give up
                 }
-            }
+            }*/
             $entityManager->persist($profil);
             $entityManager->flush();
 
@@ -57,12 +75,14 @@ class ProfilController extends AbstractController
     /**
      * @Route("/profil/editer/{participant}", name="profil_editer")
      */
-    public function editer(Request $request, ParticipantRepository $participantRepository, Participant $participant , string $photoDir): Response
+    public function editer(
+        Request $request,
+        ParticipantRepository $participantRepository,
+        Participant $participant ,
+        string $photoDir): Response
     {
-        $profilForm = $this->createForm(CreerProfilType::class, $participant);
+        $participantProfil = $participantRepository->findAll();
 
-        $profilForm->handleRequest($request);
-        if ($profilForm->isSubmitted() && $profilForm->isValid()) {
             if ($photo = $participant['photo']->getData()) {
                 $photoProfil = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
                 try {
@@ -72,13 +92,7 @@ class ProfilController extends AbstractController
                     // unable to upload the photo, give up
                 }
             }
-
-        }
-        return $this->render('profil/gerer-profil.html.twig', [
-            'profilForm' => $profilForm->createView(),
-            'profil' => $participant
-        ]);
-
+        return $this->render('profil/editer-profil.html.twig', compact('participantProfil')) ;
 
     }
     /**
