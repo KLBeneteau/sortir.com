@@ -29,6 +29,23 @@
             <ol></ol>
         </ul>
     </div>
+    <div id="description">
+        <p>Liste des participants inscrits :</p>
+        <table class="liste">
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+            </tr>
+            {% if participantsListe is not empty %}
+                {% for participant in participantsListe %}
+                    <tr>
+                        <th>{{ participant.pseudo }}</th>
+                        <th>{{ participant.prenom}} {{ participant.nom }}</th>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    </div>
 
 {% endblock %}
 

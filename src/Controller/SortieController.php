@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,12 +69,14 @@ class SortieController extends AbstractController
     public function detail(int $id, SortieRepository $sortieRepository) : Response {
 
         $sortie = $sortieRepository->find($id);
+        $participantsListe = $sortie->getParticipants();
         if(!$sortie){
             throw $this->createNotFoundException('La sortie n\'a pas été trouvée !');
         }
 
         return $this->render('sortie/afficher.html.twig', [
-            'sortie'=>$sortie
+            'sortie'=>$sortie,
+            'participantsListe'=>$participantsListe
         ]) ;
     }
     
