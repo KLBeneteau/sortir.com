@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Mon Profil {% endblock %}
+
+{% block body %}
+    <h1>Mon profil</h1>
+    <div class="img-profil-div">
+        {% if monProfil.photoProfil != null %}
+            <img class="img-profil" src="{{ asset('uploads/photos/' ~ monProfil.photoProfil)}}">
+
+        {% else %}
+            <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
+        {% endif %}
+    </div>
+    <div class="info-profil">
+        <ul>
+            <li>Prénom  : {{ monProfil.prenom }}</li>
+            <li>Nom: {{ monProfil.nom }}</li>
+            <li>Téléphone: {{ monProfil.telephone }}</li>
+            <li>Email : {{  monProfil.email }}</li>
+            <li>Campus: {{ monProfil.campus.nom }}</li>
+        </ul>
+    </div>
+    <a class="annulation-btn" href="{{ path('main_accueil') }}" >Retour</a>
+    <a class="validation-btn" href="{{ path('profil_gerer', {'id':monProfil.id}) }}" >Modifier</a>
+{% endblock %}
