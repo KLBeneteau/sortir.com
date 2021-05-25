@@ -1,47 +1,58 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-{% block title %}Log in!{% endblock %}
+        <title>{% block title %}Sortir.com{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+        <link rel="icon" href=" {{ asset('../public/img/favicon.png') }}">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+    </head>
 
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            {#You are logged in as {{ app.user.username }},}#} <a href="{{ path('app_logout') }}">Se déconnecter</a>
+    <body>
+        <div class="logo-div">
+            <img src="{{ asset('img/logo-coul.png') }}" alt="logo Sortir.com">
         </div>
-    {% endif %}
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    {#You are logged in as {{ app.user.username }},}#} <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                </div>
+            {% endif %}
 
 
-    <div>
-        <div id="identifiant-login">
-            <label for="inputEmail">Identifiant : </label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-        </div>
-        <div id="identifiant-password">
-            <label for="inputPassword">Mot de passe : </label>
-            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-        </div>
-    </div>
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
+            <div>
+                <div id="identifiant-login">
+                    <label for="inputEmail">Email : </label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                </div>
+                <div id="identifiant-password">
+                    <label for="inputPassword">Mot de passe : </label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                </div>
+            </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                    </label>
+                </div>
+            <div>
+                <li><a href="{{ path('app_register') }}" title="Create account">S'inscrire</a></li>
+            </div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Se souvenir de moi
-            </label>
-        </div>
-    <div>
-        <li><a href="{{ path('app_register') }}" title="Create account">S'inscrire</a></li>
-    </div>
-
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Connexion
-    </button>
-</form>
-{% endblock %}
+            <button class="btn btn-lg btn-primary" type="submit">
+                Connexion
+            </button>
+        </form>
+    </body>
+</html>
