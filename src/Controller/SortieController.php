@@ -27,6 +27,7 @@ class SortieController extends AbstractController
 
         $sortie = new Sortie();
         $sortie->setLieu($lieuRepository->findOneBy([],['id'=>'desc']));
+        $sortie->setOrganisateur($this->getUser());
         $sortieForm = $this->createForm(SortieType::class, $sortie);
 
 
@@ -36,6 +37,7 @@ class SortieController extends AbstractController
             $etatRepository = $entityManager ->getRepository(Etat::class);
 
             $sortie->setCampus($user->getCampus());
+
 
             if ($request->get('submitAction') == 'enregistrer') {
                 $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Créée"]));
