@@ -7,8 +7,8 @@
 {% block body %}
 
     <div>
-        <h1>Créer une sortie</h1>
-        <p id="description">Vous créez une sortie pour le campus de {{ app.user.campus.nom }} !</p>
+        <h1>{% if modification %} Modifier {% else %} Créez {% endif %} une sortie</h1>
+        <p id="description">Vous {% if modification %} modifier {% else %} créez {% endif %} une sortie pour le campus de {{ app.user.campus.nom }} !</p>
     </div>
     <div class="container">
             <div class="formulaire">
@@ -17,7 +17,6 @@
                     {{ form_row(sortieForm.lieu) }}
                     <a href="{{ path('lieu_creer') }}" class="href"><strong>Si ton lieu n'est pas encore créé : ajoute-le !</strong></a>
                     <br>
-
 
                     {{ form_row(sortieForm.nom) }}
                     {{ form_row(sortieForm.dateHeureDebut) }}
@@ -29,9 +28,16 @@
                     <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
                     <button class="validation-btn" type="submit" name="submitAction" value="publier">Publier la sortie</button>
                     {{ form_end(sortieForm) }}
+                    {% if modification %}
+                    <form action="{{ path('sortie_supprimer') }}" method="post">
+                        <input type="hidden" name="sortie_id" value="{{ sortie.id }}">
+                        <button class="validation-btn" type="submit">Supprimer</button>
+                    </form>
+                    {% endif %}
                 </div>
-                <a href="{{ path('main_accueil') }}" class="boutton"> <button class="annulation-btn">Annuler</button></a>
-
+                <form action="{{ path('main_accueil') }}" method="post">
+                    <button class="annulation-btn" type="submit">Annuler</button>
+                </form>
         </div>
     </div>
 
