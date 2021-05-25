@@ -72,21 +72,5 @@ class ProfilController extends AbstractController
             'participant' => $participant,
             'modeGestion'=> $participant->getId() !== null
         ]);
-
-
     }
-    /**
-     * @Route("profil/detail/{id}", name="profil_detail")
-     */
-    public function detail(
-        int $id,
-        ParticipantRepository $participantRepository
-    ) : Response
-    {
-        $autreProfil = $participantRepository->find($id);
-
-        return $this->render('profil/detail.html.twig', ['autreProfil' => $autreProfil]) ;
-
-    }
-
 }

@@ -1,9 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Mon Profil {% endblock %}
+{% block title %}
+    {% if app.user.id == monProfil.id %} Mon Profil
+    {% else %} detail {{ monProfil.pseudo }}
+    {% endif %}
+{% endblock %}
 
 {% block body %}
-    <h1>Mon profil</h1>
+    <h1>
+        {% if app.user.id == monProfil.id %} Mon Profil
+        {% else %} detail {{ monProfil.pseudo }}
+        {% endif %}
+    </h1>
     <div class="container">
         <div class="img-profil-div">
             {% if monProfil.photoProfil != null %}
@@ -25,6 +33,8 @@
     </div>
     <div class="btn-div">
         <a class="annulation-btn" href="{{ path('main_accueil') }}" >Retour</a>
+        {% if app.user.id == monProfil.id %}
         <a class="validation-btn" href="{{ path('profil_gerer', {'id':monProfil.id}) }}" >Modifier</a>
+        {% endif %}
     </div>
 {% endblock %}
