@@ -4,23 +4,27 @@
 
 {% block body %}
     <h1>Mon profil</h1>
-    <div class="img-profil-div">
-        {% if monProfil.photoProfil != null %}
-            <img class="img-profil" src="{{ asset('uploads/photos/' ~ monProfil.photoProfil)}}">
+    <div class="container">
+        <div class="img-profil-div">
+            {% if monProfil.photoProfil != null %}
+                <img class="img-profil" src="{{ asset('uploads/photos/' ~ monProfil.photoProfil)}}">
 
-        {% else %}
-            <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
-        {% endif %}
+            {% else %}
+                <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
+            {% endif %}
+        </div>
+        <div class="info-profil">
+            <ul class="info-profil-ul">
+                <li class="champ-li"><span class="nom-champ">Prénom  :&ensp;</span>{{ monProfil.prenom }}</li>
+                <li class="champ-li"><span class="nom-champ">Nom :&ensp;</span>{{ monProfil.nom }}</li>
+                <li class="champ-li"><span class="nom-champ">Téléphone :&ensp;</span>{{ monProfil.telephone }}</li>
+                <li class="champ-li"><span class="nom-champ">Email :&ensp;</span>{{  monProfil.email }}</li>
+                <li class="champ-li"><span class="nom-champ">Campus :&ensp;</span>{{ monProfil.campus.nom }}</li>
+            </ul>
+        </div>
     </div>
-    <div class="info-profil">
-        <ul>
-            <li>Prénom  : {{ monProfil.prenom }}</li>
-            <li>Nom: {{ monProfil.nom }}</li>
-            <li>Téléphone: {{ monProfil.telephone }}</li>
-            <li>Email : {{  monProfil.email }}</li>
-            <li>Campus: {{ monProfil.campus.nom }}</li>
-        </ul>
+    <div class="btn-div">
+        <a class="annulation-btn" href="{{ path('main_accueil') }}" >Retour</a>
+        <a class="validation-btn" href="{{ path('profil_gerer', {'id':monProfil.id}) }}" >Modifier</a>
     </div>
-    <a class="annulation-btn" href="{{ path('main_accueil') }}" >Retour</a>
-    <a class="validation-btn" href="{{ path('profil_gerer', {'id':monProfil.id}) }}" >Modifier</a>
 {% endblock %}
