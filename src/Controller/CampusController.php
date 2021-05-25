@@ -42,7 +42,7 @@ class CampusController extends AbstractController
     }
 
     /**
-     * @Route("admin/campus", name="campus_update")
+     * @Route("admin/campus/modifier", name="campus_update")
      */
     public function update(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager) : Response
     {
@@ -68,7 +68,7 @@ class CampusController extends AbstractController
     }
 
     /**
-     * @Route("admin/campus", name="campus_delete")
+     * @Route("admin/campus/suprimer", name="campus_delete")
      */
     public function delete(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager): RedirectResponse
     {
