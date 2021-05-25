@@ -42,7 +42,7 @@ class VilleController extends AbstractController
     }
 
     /**
-     * @Route("admin/ville", name="ville_update")
+     * @Route("admin/ville/modifier", name="ville_update")
      */
     public function update(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager) : Response
     {
@@ -68,7 +68,7 @@ class VilleController extends AbstractController
     }
 
     /**
-     * @Route("admin/ville", name="ville_delete")
+     * @Route("admin/ville/suprimer", name="ville_delete")
      */
     public function delete(Request $request, VilleRepository $villeRepository, EntityManagerInterface $entityManager): RedirectResponse
     {
