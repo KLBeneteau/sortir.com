@@ -6,22 +6,26 @@
 
 {% block body %}
     <h1>{{ autreProfil.pseudo }} détails</h1>
-    <div class="img-profil-div">
-        {% if autreProfil.photoProfil != null %}
-            <img class="img-profil" src="{{ asset('uploads/photos/' ~ autreProfil.photoProfil)}}">
+    <div class="container">
+        <div class="img-profil-div">
+            {% if autreProfil.photoProfil != null %}
+                <img class="img-profil" src="{{ asset('uploads/photos/' ~ autreProfil.photoProfil)}}">
 
-        {% else %}
-            <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
-        {% endif %}
+            {% else %}
+                <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
+            {% endif %}
+        </div>
+        <div class="info-profil">
+        <ul class="info-profil-ul">
+            <li class="champ-li"><span class="nom-champ">Prénom :&ensp;</span>{{ autreProfil.prenom }}</li>
+            <li class="champ-li"><span class="nom-champ">Nom :&ensp;</span>{{ autreProfil.nom }}</li>
+            <li class="champ-li"><span class="nom-champ">Téléphone :&ensp;</span>{{ autreProfil.telephone }}</li>
+            <li class="champ-li"><span class="nom-champ">Email :&ensp;</span>{{  autreProfil.email }}</li>
+            <li class="champ-li"><span class="nom-champ">Campus :&ensp;</span>{{ autreProfil.campus.nom }}</li>
+        </ul>
+        </div>
     </div>
-    <div class="info-profil">
-    <ul>
-        <li>Prénom  : {{ autreProfil.prenom }}</li>
-        <li>Nom: {{ autreProfil.nom }}</li>
-        <li>Téléphone: {{ autreProfil.telephone }}</li>
-        <li>Email : {{  autreProfil.email }}</li>
-        <li>Campus: {{ autreProfil.campus.nom }}</li>
-    </ul>
+    <div class="btn-div">
+        <a class="annulation-btn" href="{{ path('main_accueil') }}">Retour</a>
     </div>
-    <a href="{{ path('main_accueil') }}" class="boutton">Retour</a>
 {% endblock %}

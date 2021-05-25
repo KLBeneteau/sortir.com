@@ -1,7 +1,10 @@
 *
 {
     font-family: 'Teko', sans-serif;
-    font-size: 1em;
+}
+h1{
+    font-size: 4em;
+    text-align: center;
 }
 a
 {
@@ -51,8 +54,25 @@ a
 .container
 {
     display: flex;
-    width: 80%;
-    margin: 0px auto;
+    margin: 0 auto;
+    width: 50%;
+    margin-bottom: 30px;
+}
+.container-form
+{
+    display: flex;
+    margin: 0 auto;
+    width: 70%;
+    margin-bottom: 30px;
+}
+.nom-champ
+{
+    font-weight: bold;
+    color: #212121;
+}
+.champ-li
+{
+    color: #999999;
 }
 .formulaire
 {
@@ -63,6 +83,12 @@ a
 .contenu-form
 {
 display: block;
+}
+.btn-div
+{
+    margin: 0 auto;
+    width: 400px;
+    text-align: center;
 }
 
 .annulation-btn
@@ -123,6 +149,12 @@ display: block;
 {
     border-style: none;
 }
+.info-profil-ul
+{
+    list-style: none;
+    font-size: 1.5em;
+    line-height: 2em;
+}
 select
 {
     border: 3px solid #212121;
@@ -169,7 +201,7 @@ textarea{
     box-sizing: border-box;
     color: #999999;
     width: 60%;
-
+    font-size: 1.2em;
 }
 
 input:hover,
@@ -188,6 +220,7 @@ h1
 {
     font-size:3em;
     text-align:center;
+    margin: 0;
 }
 
 #description
