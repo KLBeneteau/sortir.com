@@ -27,6 +27,14 @@
                 <img src="{{ asset('img/logo-coul.png') }}" alt="logo Sortir.com">
             </div>
             {% include 'inc/nav.html.twig' %}
+            {# read and display all flash messages #}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
         </header>
         <main>
             {% block body %} {% endblock %}

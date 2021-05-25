@@ -6,7 +6,6 @@ use App\Entity\Participant;
 use App\Form\CreerProfilType;
 use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ProfilController extends AbstractController
 {
     /**
-     * @Route("profil/consulter/{id}", name="consulter")
+     * @Route("profil/consulter/{id}", name="profil_consulter")
      */
     public function consulter(
         int $id,
@@ -25,19 +24,19 @@ class ProfilController extends AbstractController
 
         $monProfil = $participantRepository->find($id);
 
-        return $this->render('profil/profil.html.twig', compact('monProfil')) ;
+        return $this->render('profil/consulter.html.twig', compact('monProfil')) ;
 
     }
     /**
      * @Route("/profil/creer", name="profil_creer")
      * @Route("/profil/gerer/{id}", name="profil_gerer")
      */
-    public function gerer(
+    public function creerOuGerer(
         Request $request,
         Participant $participant = null,
-        ParticipantRepository $participantRepository,
         EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder): Response
+        UserPasswordEncoderInterface $passwordEncoder,
+        string $photoDir): Response
     {
         if (!$participant){
             $participant = new Participant();
@@ -53,40 +52,7 @@ class ProfilController extends AbstractController
                     $profilForm->get('plainPassword')->getData()
                 )
             );
-            /*if ($photo = $profilForm['photo']->getData()) {
-                $photoProfil = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
-                try {
-                    $photo->move($photoDir, $photoProfil);
-                    $profil->setPhotoProfil($photoProfil);
-                } catch (FileException $e) {
-                    // unable to upload the photo, give up
-                }
-            }*/
-            $entityManager->persist($participant);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Votre profil a bien été créé');
-            return $this->redirectToRoute('profil_editer', ['participant' => $participant->getId()]);
-        }
-        return $this->render('profil/gerer-profil.html.twig', [
-            'profilForm' => $profilForm->createView(),
-            'profil' => $participant
-        ]);
-
-
-    }
-    /**
-     * @Route("/profil/editer/{participant}", name="profil_editer")
-     */
-    public function editer(
-        Request $request,
-        ParticipantRepository $participantRepository,
-        Participant $participant ,
-        string $photoDir): Response
-    {
-        $participantProfil = $participantRepository->findAll();
-
-            if ($photo = $participant['photo']->getData()) {
+            if ($photo = $profilForm['photo']->getData()) {
                 $photoProfil = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
                 try {
                     $photo->move($photoDir, $photoProfil);
@@ -95,18 +61,31 @@ class ProfilController extends AbstractController
                     // unable to upload the photo, give up
                 }
             }
-        return $this->render('profil/editer-profil.html.twig', compact('participantProfil')) ;
+            $entityManager->persist($participant);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre profil a bien été créé');
+            return $this->redirectToRoute('profil_consulter', ['id' => $participant->getId()]);
+        }
+        return $this->render('profil/creer-gerer.html.twig', [
+            'profilForm' => $profilForm->createView(),
+            'participant' => $participant,
+            'modeGestion'=> $participant->getId() !== null
+        ]);
+
 
     }
     /**
      * @Route("profil/detail/{id}", name="profil_detail")
      */
-    public function detail(int $id, ParticipantRepository $participantRepository) : Response {
+    public function detail(
+        int $id,
+        ParticipantRepository $participantRepository
+    ) : Response
+    {
+        $autreProfil = $participantRepository->find($id);
 
-        $user = $participantRepository->find($id);
-
-
-        return $this->render('profil/detail.html.twig', compact('user')) ;
+        return $this->render('profil/detail.html.twig', ['autreProfil' => $autreProfil]) ;
 
     }
 

@@ -4,7 +4,9 @@
 {% block body %}
         <div>
             <p>Date du jour : {{ "now" | date('d/m/Y') }}</p>
+            {% if is_granted('IS_AUTHENTICATD_FULLY') %}
             <p>Participant : {{ app.user.pseudo }}</p>
+            {% endif %}
         </div>
 
 
