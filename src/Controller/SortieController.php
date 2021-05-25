@@ -10,6 +10,7 @@ use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,9 +41,9 @@ class SortieController extends AbstractController
                 $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Créée"]));
                 $this->addFlash('warning',"Ta sortie est enregistrée ! Pense à la publier ;)");
             }else {
-                    $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Ouverte"]));
-                    $this->addFlash('success', "Ta sortie a bien été ajoutée !");
-                }
+                $sortie->setEtat($etat = $etatRepository ->findOneBy(["libelle"=>"Ouverte"]));
+                $this->addFlash('success', "Ta sortie a bien été ajoutée !");
+            }
 
 
             $entityManager->persist($sortie);
@@ -60,6 +61,21 @@ class SortieController extends AbstractController
     }
 
     /**
+     * @Route("sortie/afficher/{id}", name="sortie_afficher")
+     */
+    public function detail(int $id, SortieRepository $sortieRepository) : Response {
+
+        $sortie = $sortieRepository->find($id);
+        if(!$sortie){
+            throw $this->createNotFoundException('La sortie n\'a pas été trouvée !');
+        }
+
+        return $this->render('sortie/afficher.html.twig', [
+            'sortie'=>$sortie
+        ]) ;
+    }
+    
+    /**
      * @Route("/sortie/modifier/{id}", name="sortie_modifier")
      */
     public function modifier(int $id,Request $request,SortieRepository $sortieRepository, EtatRepository $etatRepository, EntityManagerInterface $entityManager) {
@@ -73,10 +89,10 @@ class SortieController extends AbstractController
         if($sortieForm->isSubmitted() && $sortieForm->isValid()){
             if ($request->get('submitAction') == 'enregistrer') {
                 $sortie->setEtat($etatRepository ->findOneBy(["libelle"=>"Créée"]));
-                $this->addFlash('warning',"Ta sortie est enregistrée ! Pense à la publier ;)");
+                $this->addFlash('warning',"Ta sortie est modifiée ! Pense à la publier ;)");
             }else {
                 $sortie->setEtat($etatRepository ->findOneBy(["libelle"=>"Ouverte"]));
-                $this->addFlash('success', "Ta sortie a bien été ajoutée !");
+                $this->addFlash('success', "Ta sortie a bien été modifiée !");
             }
 
             $entityManager->persist($sortie);
@@ -95,7 +111,8 @@ class SortieController extends AbstractController
     /**
      * @Route("/sortie/supprimer", name="sortie_supprimer")
      */
-    public function supprimer(Request $request,SortieRepository $sortieRepository, EntityManagerInterface $entityManager) {
+    public function supprimer(Request $request,SortieRepository $sortieRepository, EntityManagerInterface $entityManager): RedirectResponse
+    {
 
         $sortie = $sortieRepository->findOneBy(['id' => $request->get('sortie_id')]);
         $entityManager->remove($sortie);
