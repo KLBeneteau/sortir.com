@@ -7,8 +7,8 @@
 {% block body %}
     <div class="container">
         <div class="img-profil-div">
-            {% if profil.photoProfil != null %}
-                <img class="img-profil" src="{{ asset('uploads/photos/' ~ profil.photoProfil)}}">
+            {% if participant.photoProfil != null %}
+                <img class="img-profil" src="{{ asset('uploads/photos/' ~ participant.photoProfil)}}">
 
             {% else %}
                 <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">

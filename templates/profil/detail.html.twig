@@ -1,17 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} : {{ user.pseudo }}
+    {{ parent() }} : {{ autreProfil.pseudo }}
 {% endblock %}
 
 {% block body %}
-    <h3>{{ user.pseudo }}</h3>
+    <h1>{{ autreProfil.pseudo }} détails</h1>
+    <div class="img-profil-div">
+        {% if autreProfil.photoProfil != null %}
+            <img class="img-profil" src="{{ asset('uploads/photos/' ~ autreProfil.photoProfil)}}">
+
+        {% else %}
+            <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
+        {% endif %}
+    </div>
+    <div class="info-profil">
     <ul>
-        <ol>Prénom  : {{ user.prenom }}</ol>
-        <ol>Nom: {{ user.nom }}</ol>
-        <ol>Téléphone: {{ user.telephone }}</ol>
-        <ol>Email : {{  user.email }}</ol>
-        <ol>Campus: {{ user.campus.nom }}</ol>
+        <li>Prénom  : {{ autreProfil.prenom }}</li>
+        <li>Nom: {{ autreProfil.nom }}</li>
+        <li>Téléphone: {{ autreProfil.telephone }}</li>
+        <li>Email : {{  autreProfil.email }}</li>
+        <li>Campus: {{ autreProfil.campus.nom }}</li>
     </ul>
+    </div>
     <a href="{{ path('main_accueil') }}" class="boutton">Retour</a>
 {% endblock %}
