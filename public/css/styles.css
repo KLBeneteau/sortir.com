@@ -155,6 +155,29 @@ display: block;
     font-size: 1.5em;
     line-height: 2em;
 }
+.titre-erreur
+{
+    font-size: 10em;
+    margin-bottom: -40px;
+    font-weight: bolder;
+}
+.img-erreur-div
+{
+    margin: 0 auto;
+    width: 600px;
+}
+.img-erreur
+{
+    width: 600px;
+
+}
+.phrase-erreur
+{
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
 select
 {
     border: 3px solid #212121;
