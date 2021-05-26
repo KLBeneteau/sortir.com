@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Form\AnnulerSortieType;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
@@ -41,10 +42,10 @@ class SortieController extends AbstractController
 
 
             if ($request->get('submitAction') == 'enregistrer') {
-                $sortie->setEtat($etat = $etatRepository->findOneBy(["libelle" => "Créée"]));
+                $sortie->setEtat($etatRepository->findOneBy(["libelle" => "Créée"]));
                 $this->addFlash('warning', "Ta sortie est enregistrée ! Pense à la publier ;)");
             } else {
-                $sortie->setEtat($etat = $etatRepository->findOneBy(["libelle" => "Ouverte"]));
+                $sortie->setEtat($etatRepository->findOneBy(["libelle" => "Ouverte"]));
                 $this->addFlash('success', "Ta sortie a bien été ajoutée !");
             }
 
@@ -165,23 +166,36 @@ class SortieController extends AbstractController
         }
         return $this->redirectToRoute('sortie_afficher', ['id_sortie' => $id_sortie]);
     }
-        /**
-         * @Route("/sortie/annuler/{id}", name="sortie_annuler")
-         */
 
-        public
-        function annuler(int $id, SortieRepository $sortieRepository): Response
-        {
+    /**
+     * @Route("/sortie/annuler/{id}", name="sortie_annuler")
+     */
+    public function annuler(
+        int $id,
+        SortieRepository $sortieRepository,
+        Request $request,
+        EtatRepository $etatRepository,
+        EntityManagerInterface $entityManager): Response
+    {
+        $participant = $this->getUser();
+        $sortie = $sortieRepository->find($id);
+        $annulerSortieForm = $this->createForm(AnnulerSortieType::class, $sortie);
+        $annulerSortieForm->handleRequest($request);
 
-            $sortie = $sortieRepository->find($id);
+        if($annulerSortieForm->isSubmitted() && $annulerSortieForm->isValid()) {
+            $sortie->setInfosSortie($annulerSortieForm['infosSortie']->getData());
+            $sortie->setEtat(($etatRepository->findOneBy(["libelle" => "Annulée"])));
 
-            if (!$sortie) {
-                throw $this->createNotFoundException('La sortie n\'a pas été trouvée !');
-            }
+            $entityManager->persist($sortie);
+            $entityManager->flush();
 
-            return $this->render('sortie/annuler.html.twig', [
-                'sortie' => $sortie,
-
-            ]);
+            return $this->redirectToRoute('main_accueil');
         }
+
+        return $this->render('sortie/annuler.html.twig', [
+            'sortie' => $sortie,
+            'participant' => $participant,
+            'annulerSortieForm' => $annulerSortieForm->createView(),
+        ]);
+    }
 }

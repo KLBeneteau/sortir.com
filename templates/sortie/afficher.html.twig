@@ -10,23 +10,26 @@
     </div>
     <div id="col">
         <ul>
-            <ol>Nom de la sortie : {{ sortie.nom }}</ol>
-            <ol>Date et heure de la sortie : le {{ sortie.dateHeureDebut |date("d-m-Y à H:i")}}</ol>
-            <ol>Date limite d'inscription : {{ sortie.dateLimiteInscription |date("d-m-Y")}}</ol>
-            <ol>Nombre de places : {{ sortie.nbInscriptionsMax }}</ol>
-            <ol>Durée : {{ sortie.duree }} minutes</ol>
-            <ol>Description : {{ sortie.infosSortie }}</ol>
-            <ol>Campus : {{ sortie.campus.nom }}</ol>
-            <ol>Lieu : {{ sortie.lieu.nom }}</ol>
-            <ol>Rue : {{ sortie.lieu.rue }}</ol>
-            <ol>Code Postal : {{ sortie.lieu.ville.codePostal }}</ol>
+            <li class="champ-li"><span class="nom-champ">Nom de la sortie : </span>{{ sortie.nom }}</li>
+            <li class="champ-li"><span class="nom-champ">Date et heure de la sortie : </span>le {{ sortie.dateHeureDebut |date("d-m-Y à H:i")}}</li>
+            <li class="champ-li"><span class="nom-champ">Date limite d'inscription : </span>{{ sortie.dateLimiteInscription |date("d-m-Y")}}</li>
+            <li class="champ-li"><span class="nom-champ">Nombre de places : </span>{{ sortie.nbInscriptionsMax }}</li>
+            <li class="champ-li"><span class="nom-champ">Durée : </span>{{ sortie.duree }} minutes</li>
+            {% if sortie.etat.libelle == 'Annulée' %}
+            <li class="champ-li"><span class="nom-champ">Sortie annulée pour le motif : </span>{{ sortie.infosSortie }}</li>
+            {% else %}
+            <li class="champ-li"><span class="nom-champ">Description : </span>{{ sortie.infosSortie }}</li>
+            {% endif %}
+            <li class="champ-li"><span class="nom-champ">Campus : </span>{{ sortie.campus.nom }}</li>
+            <li class="champ-li"><span class="nom-champ">Lieu : </span>{{ sortie.lieu.nom }}</li>
+            <li class="champ-li"><span class="nom-champ">Rue : </span>{{ sortie.lieu.rue }}</li>
+            <li class="champ-li"><span class="nom-champ">Code Postal : </span>{{ sortie.lieu.ville.codePostal }}</li>
             {% if sortie.lieu.latitude %}
-                <ol>Latitude : {{ sortie.lieu.latitude }}</ol>
+                <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.latitude }}</li>
             {% endif %}
             {% if sortie.lieu.longitude %}
-                <ol>Latitude : {{ sortie.lieu.longitude }}</ol>
+                <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.longitude }}</li>
             {% endif %}
-            <ol></ol>
         </ul>
     </div>
     <div id="description">
@@ -47,10 +50,16 @@
         </table>
     </div>
     <div class="btn-div">
+        {% if sortie.etat.libelle == 'Annulée' %}
+            <form action="{{ path('main_accueil') }}" method="post">
+                <button class="annulation-btn" type="submit">Retour</button>
+            </form>
+        {% else %}
         {% if sortie.getParticipants().contains(app.user)%}
         <a href="{{ path('sortie_desinscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="annulation-btn" >Désinscription</a>
         {% else %}
         <a href="{{ path('sortie_inscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="validation-btn" >Inscription</a>
+        {% endif %}
         {% endif %}
     </div>
 
