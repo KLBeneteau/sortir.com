@@ -4,23 +4,45 @@
 {% block body %}
         <div>
             <p>Date du jour : {{ "now" | date('d/m/Y') }}</p>
-            {% if is_granted('IS_AUTHENTICATD_FULLY') %}
+            {% if is_granted('ROLE_USER') %}
             <p>Participant : {{ app.user.pseudo }}</p>
             {% endif %}
         </div>
 
-            <h2>Filtrer les sorties</h2>
+        <h2>Filtrer les sorties</h2>
 
-
-            {{ form_start(sortiesForm) }}
-                {{ form_widget(sortiesForm.campus) }}
-                {{ form_widget(sortiesForm.nom) }}
-                {{ form_widget(sortiesForm.dateEntre) }}
-                {{ form_widget(sortiesForm.dateET) }}
-    <button type="submit">Rechercher</button>
-            {{ form_end(sortiesForm) }}
-
-
+        <form action="{{ path('main_accueil') }}" method="post">
+            <div>
+                <label for="filtre_campus">Campus</label>
+                <select name="filtre_campus" id="filtre_campus">
+                    <option value="-1">Tout les campus</option>
+                    {% for campus in campusList %}
+                        <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                    {% endfor %}
+                </select>
+                <label for="filtre_nomSortie">le nom de la sortie contient</label>
+                <input type="text" name="filtre_nomSortie" id="filtre_nomSortie" placeholder="recherche">
+                <div>
+                    <label for="filtre_dateDeb"></label>
+                    <input type="date" name="filtre_dateDeb" id="filtre_dateDeb">
+                </div>
+                <div>
+                    <label for="filtre_dateFin"></label>
+                    <input type="date" name="filtre_dateFin" id="filtre_dateFin">
+                </div>
+            </div>
+            <div>
+                <input type="checkbox" name="filtre_CB_organisateur" id="filtre_CB_organisateur" value='true'>
+                <label for="filtre_CB_organisateur">Sorties dont je suis l'organisateur.trice</label>
+                <input type="checkbox" name="filtre_CB_inscrit" id="filtre_CB_inscrit" value='true'>
+                <label for="filtre_CB_inscrit">Sorties auxquelles je suis inscrit.e</label>
+                <input type="checkbox" name="filtre_CB_pasInscrit" id="filtre_CB_pasInscrit" value='true'>
+                <label for="filtre_CB_pasInscrit">Sorties auxquelles je ne suis pas inscrit.e</label>
+                <input type="checkbox" name="filtre_CB_passer" id="filtre_CB_passer" value='true'>
+                <label for="filtre_CB_passer">Sorties passées</label>
+            </div>
+            <input type="submit" value="Rechercher">
+        </form>
 
         <div>
             <table>
