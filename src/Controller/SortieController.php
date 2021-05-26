@@ -64,20 +64,18 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("sortie/afficher/{id}", name="sortie_afficher")
+     * @Route("sortie/afficher/{id_sortie}", name="sortie_afficher")
      */
-    public function detail(int $id, SortieRepository $sortieRepository) : Response {
-
-        $sortie = $sortieRepository->find($id);
-        $participantsListe = $sortie->getParticipants();
-        if(!$sortie){
-            throw $this->createNotFoundException('La sortie n\'a pas été trouvée !');
-        }
+    public function afficher(
+        int $id_sortie,
+        SortieRepository $sortieRepository): Response
+    {
+        $sortie = $sortieRepository->findOneBy(['id'=>$id_sortie]);
 
         return $this->render('sortie/afficher.html.twig', [
             'sortie'=>$sortie,
-            'participantsListe'=>$participantsListe
-        ]) ;
+            'participants'=> $sortie->getParticipants()
+        ]);
     }
 
     /**
@@ -126,6 +124,43 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('main_accueil') ;
 
     }
+    /**
+     * @Route("/sortie/inscription/{id_participant}/{id_sortie}", name="sortie_inscription")
+     */
+    public function inscription(
+        int $id_participant,
+        int $id_sortie,
+        EntityManagerInterface $entityManagerInterface,
+        ParticipantRepository $participantRepository,
+        SortieRepository $sortieRepository): Response
+    {
+        $sortie = $sortieRepository->find($id_sortie);
+        $participant = $participantRepository->find($id_participant);
+        if ($participant && $sortie){
+            $participant->addInscription($sortie);
+            $entityManagerInterface->flush();
+            $this->addFlash('success', 'Félicication ! vous êtes inscrit à cette sortie');
+        }
+        return $this->redirectToRoute('sortie_afficher', ['id_sortie'=>$id_sortie]);
+    }
+    /**
+     * @Route("/sortie/desinscription/{id_participant}/{id_sortie}", name="sortie_desinscription")
+     */
+    public function desinscription(
+        int $id_participant,
+        int $id_sortie,
+        EntityManagerInterface $entityManagerInterface,
+        ParticipantRepository $participantRepository,
+        SortieRepository $sortieRepository): Response
+    {
+        $sortie = $sortieRepository->find($id_sortie);
+        $participant = $participantRepository->find($id_participant);
+        if ($participant && $sortie){
+            $participant->removeInscription($sortie);
+            $entityManagerInterface->flush();
+            $this->addFlash('success', 'Votre désinscription à la sortie à bien été prise en compte');
+        }
+        return $this->redirectToRoute('sortie_afficher', ['id_sortie'=>$id_sortie]);
 
     /**
      * @Route("/sortie/annuler/{id}", name="sortie_annuler")

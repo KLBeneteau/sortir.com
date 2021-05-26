@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <title>{% block title %}Sortir.com{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
-        <link rel="icon" href=" {{ asset('../public/img/favicon.png') }}">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
-    </head>
+    <title>{% block title %}Sortir.com{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="icon" href=" {{ asset('../public/img/favicon.png') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+</head>
 
-    <body>
-        <div class="logo-div">
-            <img src="{{ asset('img/logo-coul.png') }}" alt="logo Sortir.com">
-        </div>
+<body class="login-body">
+<div class="logo-div">
+    <img src="{{ asset('img/logo-coul.png') }}" alt="logo Sortir.com">
+</div>
+<div class="container-login">
+    <div class="form-login">
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
-            {% if app.user %}
-                <div class="mb-3">
-                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                </div>
-            {% endif %}
 
 
             <div>
@@ -39,20 +36,26 @@
                     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
                 </div>
             </div>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Se souvenir de moi
-                    </label>
-                </div>
+            <div class="checkbox mb-3">
+                <label class="souvenir-label">
+                    <input class="souvenir-input" type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+            </div>
             <div>
-                <li><a href="{{ path('profil_creer') }}" title="Create account">S'inscrire</a></li>
+                <li class="lien-inscription-li"><a class="lien-inscription" href="{{ path('profil_creer') }}" title="Create account">S'inscrire</a></li>
+            </div>
+            <div class="btn-div">
+                {% if app.user %}
+                    <a class="annulation-btn" href="{{ path('app_logout') }}">Se déconnecter</a>
+                {% endif %}
+                <button class="validation-btn" type="submit">Connexion</button>
             </div>
 
-            <button class="btn btn-lg btn-primary" type="submit">
-                Connexion
-            </button>
         </form>
-    </body>
+    </div>
+</div>
+</body>
 </html>
+
