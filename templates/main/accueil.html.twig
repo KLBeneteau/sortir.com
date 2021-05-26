@@ -74,11 +74,11 @@
                                     <a href="{{ path('sortie_modifier', {'id': sortie.id} ) }}" >Modifier</a>
                                     <a href="#" >Todo : Publier</a>
                                 {% elseif sortie.etat.libelle =='Ouverte' %}
-                                    <a href="{{ path('sortie_afficher', {'id': sortie.id} ) }}" >Afficher</a>
+                                    <a href="{{ path('sortie_afficher', {'id_sortie': sortie.id} ) }}" >Afficher</a>
                                     <a href="{{ path('sortie_annuler', {'id': sortie.id} ) }}" >Annuler</a>
                                 {% endif %}
                             {% else %}
-                                <a href="{{ path('sortie_afficher', {'id': sortie.id} ) }}" >Afficher</a>
+                                <a href="{{ path('sortie_afficher', {'id_sortie': sortie.id} ) }}" >Afficher</a>
                                 {% if sortie.etat.libelle == 'Ouverte' %}
                                     {% if sortie.participants.contains(app.user) %}
                                         <a href="#" >Todo : se desinscrire</a>
