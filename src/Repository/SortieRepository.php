@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Sortie;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,18 +25,29 @@ class SortieRepository extends ServiceEntityRepository
      * Fonction qui récupère les sorties sans une recherche.
      * @return Sortie[]
      */
-    public function recherchesSorties(): array
+    public function recherchesSorties(
+              int $campusId,
+              String $nomSortie,
+              DateTime $dateDeb,
+              DateTime $dateFin,
+              bool $cb_organisateur,
+              bool $cb_inscrit,
+              bool $cb_pasInscrit,
+              bool $cb_passer): array
     {
-        return $this->findAll();
+
+        $requestSql =  $this->createQueryBuilder('s')->where('true = true ') ;
+
+        if ($campusId!=-1) {
+            $requestSql->andWhere('s.campus = :campusId')
+                       ->setParameter('campusId',$campusId);
+        }
+
+        if ($nomSortie!=""){
+            $requestSql->andWhere('s.nom LIKE :nom')
+                       ->setParameter('nom','%'.$nomSortie.'%');
+        }
+
+        return $requestSql->getQuery()->getResult();
     }
-
-   /* /**
-     * Fonction qui récupère les sorties avec une recherche.
-     * @return Sortie[]
-     */
-    //public function accueil(): array
-    //{
-     //   return $this->findAll();
-    //}
-
 }
