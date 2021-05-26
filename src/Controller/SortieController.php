@@ -79,7 +79,7 @@ class SortieController extends AbstractController
             'participantsListe'=>$participantsListe
         ]) ;
     }
-    
+
     /**
      * @Route("/sortie/modifier/{id}", name="sortie_modifier")
      */
@@ -125,5 +125,23 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('main_accueil') ;
 
+    }
+
+    /**
+     * @Route("/sortie/annuler/{id}", name="sortie_annuler")
+     */
+
+    public function annuler(int $id, SortieRepository $sortieRepository) : Response {
+
+        $sortie = $sortieRepository->find($id);
+
+        if(!$sortie){
+            throw $this->createNotFoundException('La sortie n\'a pas été trouvée !');
+        }
+
+        return $this->render('sortie/annuler.html.twig', [
+            'sortie'=>$sortie,
+
+        ]) ;
     }
 }
