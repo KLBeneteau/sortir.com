@@ -30,7 +30,7 @@ class ProfilController extends AbstractController
 
     }
     /**
-     * @Route("/profil/creer", name="profil_creer")
+     * @Route("/creer", name="profil_creer")
      * @Route("/profil/gerer/{id}", name="profil_gerer")
      */
     public function creerOuGerer(
