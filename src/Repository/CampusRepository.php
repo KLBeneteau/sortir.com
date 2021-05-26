@@ -22,8 +22,8 @@ class CampusRepository extends ServiceEntityRepository
     public function findAvecFiltre(String $nom=null) {
 
         if($nom)
-            return $this->createQueryBuilder('o')
-                ->where('o.nom LIKE ?1')
+            return $this->createQueryBuilder('c')
+                ->where('c.nom LIKE ?1')
                 ->setParameter(1, '%'.$nom.'%')
                 ->getQuery()
                 ->getResult();

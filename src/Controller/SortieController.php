@@ -77,7 +77,7 @@ class SortieController extends AbstractController
             'participants'=> $sortie->getParticipants()
         ]);
     }
-    
+
     /**
      * @Route("/sortie/modifier/{id}", name="sortie_modifier")
      */
@@ -161,5 +161,22 @@ class SortieController extends AbstractController
             $this->addFlash('success', 'Votre désinscription à la sortie à bien été prise en compte');
         }
         return $this->redirectToRoute('sortie_afficher', ['id_sortie'=>$id_sortie]);
+
+    /**
+     * @Route("/sortie/annuler/{id}", name="sortie_annuler")
+     */
+
+    public function annuler(int $id, SortieRepository $sortieRepository) : Response {
+
+        $sortie = $sortieRepository->find($id);
+
+        if(!$sortie){
+            throw $this->createNotFoundException('La sortie n\'a pas été trouvée !');
+        }
+
+        return $this->render('sortie/annuler.html.twig', [
+            'sortie'=>$sortie,
+
+        ]) ;
     }
 }

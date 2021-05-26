@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\CreerProfilType;
 use App\Repository\ParticipantRepository;
+use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class ProfilController extends AbstractController
 {
@@ -28,7 +30,7 @@ class ProfilController extends AbstractController
 
     }
     /**
-     * @Route("/profil/creer", name="profil_creer")
+     * @Route("/creer", name="profil_creer")
      * @Route("/profil/gerer/{id}", name="profil_gerer")
      */
     public function creerOuGerer(
@@ -36,9 +38,13 @@ class ProfilController extends AbstractController
         Participant $participant = null,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
-        string $photoDir): Response
+        string $photoDir,
+        GuardAuthenticatorHandler $guardHandler,
+        AppAuthenticator $authenticator): Response
     {
+        $string = "modifié" ;
         if (!$participant){
+            $string = "créé" ;
             $participant = new Participant();
         }
         $profilForm = $this->createForm(CreerProfilType::class, $participant);
@@ -64,29 +70,19 @@ class ProfilController extends AbstractController
             $entityManager->persist($participant);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre profil a bien été créé');
-            return $this->redirectToRoute('profil_consulter', ['id' => $participant->getId()]);
+            $this->addFlash('success', 'Votre profil a bien été ' . $string);
+
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $participant,
+                $request,
+                $authenticator,
+                'main' // firewall name in security.yaml
+            );
         }
         return $this->render('profil/creer-gerer.html.twig', [
             'profilForm' => $profilForm->createView(),
             'participant' => $participant,
             'modeGestion'=> $participant->getId() !== null
         ]);
-
-
     }
-    /**
-     * @Route("profil/detail/{id}", name="profil_detail")
-     */
-    public function detail(
-        int $id,
-        ParticipantRepository $participantRepository
-    ) : Response
-    {
-        $autreProfil = $participantRepository->find($id);
-
-        return $this->render('profil/detail.html.twig', ['autreProfil' => $autreProfil]) ;
-
-    }
-
 }

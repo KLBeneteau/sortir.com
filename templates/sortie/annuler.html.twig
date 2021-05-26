@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <h1>Annuler une sortie</h1>
+    </div>
+    <div >
+        <ul>
+            <ol class="champ-li"><span class="nom-champ">Nom de la sortie : </span>{{ sortie.nom }}</ol>
+            <ol class="champ-li"><span class="nom-champ">Date et heure de la sortie : </span>le {{ sortie.dateHeureDebut |date("d-m-Y à H:i")}}</ol>
+            <ol class="champ-li"><span class="nom-champ">Campus : </span>{{ sortie.campus.nom }}</ol>
+            <ol class="champ-li"><span class="nom-champ">Lieu : </span>{{ sortie.lieu.nom }} {{ sortie.lieu.rue }} {{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}   </ol>
+        </ul>
+        <div class="container"><label for="motifAnnulation">Motif :</label>
+        <textarea id="motifAnnulation" name="motifAnnulation" rows="5" cols="33"></textarea></div>
+    </div>
+    <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
+    <form action="{{ path('main_accueil') }}" method="post">
+        <button class="annulation-btn" type="submit">Annuler</button>
+    </form>
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
