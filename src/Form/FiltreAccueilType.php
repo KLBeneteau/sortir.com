@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Campus;
+use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -28,7 +29,7 @@ class FiltreAccueilType extends AbstractType
                 'choice_label' => 'nom'
             ])
             //Permet de faire une recherche avec un nom.
-            ->add('recherche', TextType::class, [
+            ->add('nom', TextType::class, [
                 'label' => 'Le nom de la sortie contient : ',
                 'attr' => [
                     'placeholder' => 'Rechercher une sortie...'
@@ -40,7 +41,7 @@ class FiltreAccueilType extends AbstractType
                 'widget' =>'single_text'
             ])
             //choix de la date
-            ->add('dateEt', DateType::class,[
+            ->add('dateET', DateType::class,[
                 'html5' => true,
                 'widget' =>'single_text'
             ])
@@ -57,7 +58,7 @@ class FiltreAccueilType extends AbstractType
             ))
 
 
-            //->add('recherche', SubmitType::class, ['label' => 'Rechercher'])
+            //->add('rechercher', SubmitType::class)
 
         ;
     }

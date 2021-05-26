@@ -20,12 +20,21 @@ class SortieRepository extends ServiceEntityRepository
     }
 
     /**
-     * Fonction qui récupère les sorties avec une recherche.
+     * Fonction qui récupère les sorties sans une recherche.
      * @return Sortie[]
      */
     public function recherchesSorties(): array
     {
         return $this->findAll();
     }
+
+   /* /**
+     * Fonction qui récupère les sorties avec une recherche.
+     * @return Sortie[]
+     */
+    //public function accueil(): array
+    //{
+     //   return $this->findAll();
+    //}
 
 }
