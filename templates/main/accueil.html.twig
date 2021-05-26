@@ -46,7 +46,7 @@
                         <td>{{ sortie.etat.libelle }}</td>
                         <td> {{ sortie.participants.count }}</td>
                         <td>{{ sortie.organisateur.pseudo }}</td>
-                        <td></td>
+                        <td> <a href="{{ path('sortie_afficher', {'id': sortie.id} ) }}" >Afficher</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
