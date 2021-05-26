@@ -36,8 +36,8 @@
                 <th>Pseudo</th>
                 <th>Nom</th>
             </tr>
-            {% if participantsListe is not empty %}
-                {% for participant in participantsListe %}
+            {% if participants is not empty %}
+                {% for participant in participants %}
                     <tr>
                         <th>{{ participant.pseudo }}</th>
                         <th>{{ participant.prenom}} {{ participant.nom }}</th>
@@ -47,10 +47,10 @@
         </table>
     </div>
     <div class="btn-div">
-        {% if sortie.getInscriptions().contains(app.user)%}
-        <a class="annulation-btn" >Désinscription</a>
+        {% if sortie.getParticipants().contains(app.user)%}
+        <a href="{{ path('sortie_desinscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="annulation-btn" >Désinscription</a>
         {% else %}
-        <a class="validation-btn" >Inscription</a>
+        <a href="{{ path('sortie_inscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="validation-btn" >Inscription</a>
         {% endif %}
     </div>
 

@@ -28,12 +28,41 @@ a
 {
     margin: 0 auto;
     width: 50%;
-
+    margin-top: 100px;
 }
 .form-login
 {
     margin: 0 auto;
     width: 100%;
+}
+.lien-inscription-li
+{
+    list-style: none;
+    text-align: center;
+}
+.lien-inscription
+{
+    list-style: none;
+    color: #f5df4d;
+    font-size: 1.5em;
+}
+.lien-inscription:hover
+{
+    color: #212121;
+    font-size: 1.5em;
+}
+.checkbox
+{
+    text-align: center;
+}
+.souvenir-label
+{
+    width: 30%;
+    text-align: center;
+}
+.souvenir-input
+{
+    width: 10%;
 }
 
 .menu-a
@@ -99,7 +128,7 @@ a
 }
 .contenu-form
 {
-display: block;
+    display: block;
 }
 .btn-div
 {
@@ -114,7 +143,7 @@ display: block;
     transition: all 1s;
     color: #212121;
     padding: 20px 30px;
-    background-color: transparent;
+    background-color: white;
     margin: 20px;
     font-size: 1.2em;
     font-weight: bold;
@@ -131,7 +160,7 @@ display: block;
     transition: all 1s;
     color: #212121;
     padding: 20px 30px;
-    background-color: transparent;
+    background-color: white;
     margin: 20px;
     font-size: 1.2em;
     font-weight: bold;
@@ -272,4 +301,12 @@ h1
 #col {
     font-size: large;
     column-count: 2;
+}
+#identifiant-password
+{
+    text-align: center;
+}
+#identifiant-login
+{
+    text-align: center;
 }
