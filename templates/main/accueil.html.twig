@@ -12,25 +12,45 @@
             <h2>Filtrer les sorties</h2>
 
 
-            {{ form(sortiesForm) }}
+            {{ form_start(sortiesForm) }}
+                {{ form_widget(sortiesForm.campus) }}
+                {{ form_widget(sortiesForm.nom) }}
+                {{ form_widget(sortiesForm.dateEntre) }}
+                {{ form_widget(sortiesForm.dateET) }}
+    <button type="submit">Rechercher</button>
+            {{ form_end(sortiesForm) }}
+
+
 
         <div>
-            <tr>
-                <td>Nom de la sortie</td>
-                <td>Date de la sortie</td>
-                <td>Clôture</td>
-                <td>Inscrits/Places</td>
-                <td>Etat</td>
-                <td>Inscrit</td>
-                <td>Organisateur</td>
-                <td>Actions</td>
-            </tr>
-        </div>
-
-        <div>
-            <div>
-
-            </div>
+            <table>
+                <thead>
+                <tr>
+                    <th>Nom de la sortie</th>
+                    <th>Date de la sortie</th>
+                    <th>Clôture</th>
+                    <th>Inscrits/Places</th>
+                    <th>Etat</th>
+                    <th>Inscrit</th>
+                    <th>Organisateur</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for sortie in sortiesList %}
+                        <tr>
+                        <td>{{ sortie.nom }}</td>
+                        <td>{{ sortie.dateHeureDebut | date("d/m/Y à H:i")}}</td>
+                        <td>{{ sortie.dateLimiteInscription.format('d/m/Y') }}</td>
+                        <td>{{ sortie.nbInscriptionsMax }}</td>
+                        <td>{{ sortie.etat.libelle }}</td>
+                        <td> {{ sortie.participants.count }}</td>
+                        <td>{{ sortie.organisateur.pseudo }}</td>
+                        <td></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
 

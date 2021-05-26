@@ -17,11 +17,23 @@ class MainController extends AbstractController
      */
     public function accueil(Request $request, SortieRepository $sortieRepository) : Response {
 
-        $sortiesForm = $this->createForm(FiltreAccueilType::class);
-        //$sortiesList = $sortieRepository->recherchesSorties();
+// sans filtres
+           $sortiesList = $sortieRepository->recherchesSorties();
+
+
+           $sortiesForm = $this->createForm(FiltreAccueilType::class);
+        if($sortiesForm->handleRequest($request)->isSubmitted() && $sortiesForm->isValid()) {
+            $criteria = $sortiesForm->getData(); //entre du formulaire
+
+            dd($criteria);
+            $sorties = $sortieRepository->accueil($criteria);
+        }
+
+
+
         return $this->render('main/accueil.html.twig', [
             'sortiesForm' => $sortiesForm->createView(),
-            //'sortiesList' => $sortiesList
+            'sortiesList' => $sortiesList
         ]);
 
 
