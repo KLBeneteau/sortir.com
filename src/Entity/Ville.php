@@ -29,6 +29,13 @@ class Ville
 
     /**
      * @Assert\NotBlank(message="le code postal est obligatoire")
+     * @Assert\Length (
+     *     min=5,
+     *     max=5
+     *)
+     * @Assert\Regex(
+     *     pattern="{[0-9]{5}}"
+     * )
      * @ORM\Column(type="string")
      */
     private $codePostal;
