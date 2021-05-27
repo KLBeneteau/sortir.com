@@ -35,13 +35,13 @@ class Lieu
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Assert\Type ("float)
+     * @Assert\Type ("float")
      */
     private $latitude;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Assert\Type ("float)
+     * @Assert\Type ("float")
      */
     private $longitude;
 
