@@ -44,7 +44,7 @@ class SortieController extends AbstractController
 
             if ($request->get('submitAction') == 'enregistrer') {
                 $sortie->setEtat($etatRepository->findOneBy(["libelle" => "Créée"]));
-                $this->addFlash('warning', "Ta sortie est enregistrée ! Pense à la publier ;)");
+                $this->addFlash('success', "Ta sortie est enregistrée ! Pense à la publier ;)");
             } else {
                 $sortie->setEtat($etatRepository->findOneBy(["libelle" => "Ouverte"]));
                 $this->addFlash('success', "Ta sortie a bien été ajoutée !");
@@ -54,7 +54,7 @@ class SortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            return $this->redirectToRoute('sortie_creer');
+            return $this->redirectToRoute('main_accueil');
         }
 
         return $this->render('sortie/creer.html.twig', [
