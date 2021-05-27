@@ -34,7 +34,8 @@ class Ville
      *     max=5
      *)
      * @Assert\Regex(
-     *     pattern="{[0-9]{5}}"
+     *     pattern="{[0-9]{5}}",
+     *     message="Le code postal doit contenir 5 chiffres."
      * )
      * @ORM\Column(type="string")
      */
