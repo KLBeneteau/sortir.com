@@ -48,6 +48,10 @@ class Sortie
      *     propertyPath="dateHeureDebut",
      *     message="La date limite d'inscription doit être antérieure à la date de la sortie !"
      * )
+     * @Assert\Expression(
+     *     "this.getDateLimiteInscription() >= this.getCurrentDate()",
+     *     message="La date limite d'inscription doit être postérieure à la date du jour !"
+     * )
      * @Assert\NotBlank(message="La date limite d'inscriptions est obligatoire.")
      * @ORM\Column(type="datetime")
      */
@@ -68,6 +72,12 @@ class Sortie
      * @ORM\Column(type="text", nullable=true)
      */
     private $infosSortie;
+
+    /**
+     * @Assert\Length(min=2, minMessage="Tu peux nous en dire un peu plus ?")
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $motifAnnulation;
 
     /**
      * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sorties", cascade="persist")
@@ -100,6 +110,10 @@ class Sortie
     public function __construct()
     {
         $this->participants = new ArrayCollection();
+    }
+
+    public function getCurrentDate(){
+        return new \DateTime();
     }
 
     public function getId(): ?int
@@ -214,6 +228,19 @@ class Sortie
 
         return $this;
     }
+
+    public function getMotifAnnulation(): ?string
+    {
+        return $this->motifAnnulation;
+    }
+
+    public function setMotifAnnulation(?string $motifAnnulation): self
+    {
+        $this->motifAnnulation = $motifAnnulation;
+
+        return $this;
+    }
+
 
     public function getOrganisateur(): ?Participant
     {
