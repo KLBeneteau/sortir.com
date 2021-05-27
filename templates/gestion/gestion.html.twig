@@ -1,0 +1,35 @@
+{% extends 'base.html.twig'%}
+{% block body %}
+
+<h1>Gestion des utilisateurs.</h1>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Pseudo</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for participant in participantsList %}
+                <tr>
+                    <td>{{ participant.nom }}</td>
+                    <td>{{ participant.prenom }}</td>
+                    <td>{{ participant.pseudo }}</td>
+                    <td>{{ participant.email }}</td>
+                    <td><form method="post" action="{{ path('participant_delete') }}">
+                            <input type="hidden" name="participant_id" value="{{ participant.id }}">
+                            <button type="submit" name="participant_delete" value="{{ participant.id }}">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+
+{% endblock%}
