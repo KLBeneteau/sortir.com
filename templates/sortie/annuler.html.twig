@@ -4,6 +4,7 @@
     <div>
         <h1>Annuler une sortie</h1>
     </div>
+{%  if sortie.organisateur.id == app.user.id %}
     <div >
         <ul>
             <li class="champ-li"><span class="nom-champ">Nom de la sortie : </span>{{ sortie.nom }}</li>
@@ -17,14 +18,19 @@
             <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Confirmer l'annulation</button>
             {{ form_end(annulerSortieForm) }}
         </div>
-        {#
-        <div class="container"><label for="motifAnnulation">Motif :</label>
-        <textarea id="motifAnnulation" name="motifAnnulation" rows="5" cols="33"></textarea></div>
-        #}
+
         <form action="{{ path('main_accueil') }}" method="post">
             <button class="annulation-btn" type="submit">Retour</button>
         </form>
     </div>
+{% else %}
+    <div id="description">
+        <p >Vous ne pouvez pas annuler une sortie si vous n'en êtes pas l'organisateur !</p>
+        <form action="{{ path('main_accueil') }}" method="post">
+            <button class="annulation-btn" type="submit">Annuler</button>
+        </form>
+    </div>
+{% endif %}
 
 
 
