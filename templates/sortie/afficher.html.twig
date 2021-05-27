@@ -8,60 +8,70 @@
     <div>
         <h1>Afficher une sortie</h1>
     </div>
-    <div id="col">
-        <ul>
-            <li class="champ-li"><span class="nom-champ">Nom de la sortie : </span>{{ sortie.nom }}</li>
-            <li class="champ-li"><span class="nom-champ">Date et heure de la sortie : </span>le {{ sortie.dateHeureDebut |date("d-m-Y à H:i")}}</li>
-            <li class="champ-li"><span class="nom-champ">Date limite d'inscription : </span>{{ sortie.dateLimiteInscription |date("d-m-Y")}}</li>
-            <li class="champ-li"><span class="nom-champ">Nombre de places : </span>{{ sortie.nbInscriptionsMax }}</li>
-            <li class="champ-li"><span class="nom-champ">Durée : </span>{{ sortie.duree }} minutes</li>
+    <div class="container-sortie">
+        <div class="barre-verticale"></div>
+        <div class="info">
+            <ul class="info-ul">
+                <li class="champ-li"><span class="nom-champ">Nom de la sortie : </span>{{ sortie.nom }}</li>
+                <li class="champ-li"><span class="nom-champ">Date et heure de la sortie : </span>le {{ sortie.dateHeureDebut |date("d-m-Y à H:i")}}</li>
+                <li class="champ-li"><span class="nom-champ">Date limite d'inscription : </span>{{ sortie.dateLimiteInscription |date("d-m-Y")}}</li>
+                <li class="champ-li"><span class="nom-champ">Nombre de places : </span>{{ sortie.nbInscriptionsMax }}</li>
+                <li class="champ-li"><span class="nom-champ">Durée : </span>{{ sortie.duree }} minutes</li>
+                {% if sortie.etat.libelle == 'Annulée' %}
+                    <li class="champ-li"><span class="nom-champ">Sortie annulée pour le motif : </span>{{ sortie.infosSortie }}</li>
+                {% else %}
+                    <li class="champ-li"><span class="nom-champ">Description : </span>{{ sortie.infosSortie }}</li>
+                {% endif %}
+                <li class="champ-li"><span class="nom-champ">Campus : </span>{{ sortie.campus.nom }}</li>
+                <li class="champ-li"><span class="nom-champ">Lieu : </span>{{ sortie.lieu.nom }}</li>
+                <li class="champ-li"><span class="nom-champ">Rue : </span>{{ sortie.lieu.rue }}</li>
+                <li class="champ-li"><span class="nom-champ">Code Postal : </span>{{ sortie.lieu.ville.codePostal }}</li>
+                {% if sortie.lieu.latitude %}
+                    <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.latitude }}</li>
+                {% endif %}
+                {% if sortie.lieu.longitude %}
+                    <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.longitude }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-recap">
+        <div id="description">
+            <h2>Liste des participants inscrits :</h2>
+            <table class="liste">
+                <tr class="ligne-titre">
+                    <th class="colonne-titre">Pseudo</th>
+                    <th class="colonne-titre">Nom</th>
+                </tr>
+                {% if participants is not empty %}
+                    {% for participant in participants %}
+                        <tr class="ligne-contenu-1">
+                            <th class="colonne-contenu">{{ participant.pseudo }}</th>
+                            <th class="colonne-contenu">{{ participant.prenom}} {{ participant.nom }}</th>
+                        </tr>
+                        <tr class="ligne-contenu-2">
+                            <th class="colonne-contenu">{{ participant.pseudo }}</th>
+                            <th class="colonne-contenu">{{ participant.prenom}} {{ participant.nom }}</th>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+        <div class="btn-div">
             {% if sortie.etat.libelle == 'Annulée' %}
-            <li class="champ-li"><span class="nom-champ">Sortie annulée pour le motif : </span>{{ sortie.infosSortie }}</li>
+                <form action="{{ path('main_accueil') }}" method="post">
+                    <button class="annulation-btn" type="submit">Retour</button>
+                </form>
             {% else %}
-            <li class="champ-li"><span class="nom-champ">Description : </span>{{ sortie.infosSortie }}</li>
+                {% if sortie.getParticipants().contains(app.user)%}
+                    <a href="{{ path('sortie_desinscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="annulation-btn" >Désinscription</a>
+                {% else %}
+                    <a href="{{ path('sortie_inscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="validation-btn" >Inscription</a>
+                {% endif %}
             {% endif %}
-            <li class="champ-li"><span class="nom-champ">Campus : </span>{{ sortie.campus.nom }}</li>
-            <li class="champ-li"><span class="nom-champ">Lieu : </span>{{ sortie.lieu.nom }}</li>
-            <li class="champ-li"><span class="nom-champ">Rue : </span>{{ sortie.lieu.rue }}</li>
-            <li class="champ-li"><span class="nom-champ">Code Postal : </span>{{ sortie.lieu.ville.codePostal }}</li>
-            {% if sortie.lieu.latitude %}
-                <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.latitude }}</li>
-            {% endif %}
-            {% if sortie.lieu.longitude %}
-                <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.longitude }}</li>
-            {% endif %}
-        </ul>
+        </div>
     </div>
-    <div id="description">
-        <p>Liste des participants inscrits :</p>
-        <table class="liste">
-            <tr>
-                <th>Pseudo</th>
-                <th>Nom</th>
-            </tr>
-            {% if participants is not empty %}
-                {% for participant in participants %}
-                    <tr>
-                        <th>{{ participant.pseudo }}</th>
-                        <th>{{ participant.prenom}} {{ participant.nom }}</th>
-                    </tr>
-                {% endfor %}
-            {% endif %}
-        </table>
-    </div>
-    <div class="btn-div">
-        {% if sortie.etat.libelle == 'Annulée' %}
-            <form action="{{ path('main_accueil') }}" method="post">
-                <button class="annulation-btn" type="submit">Retour</button>
-            </form>
-        {% else %}
-        {% if sortie.getParticipants().contains(app.user)%}
-        <a href="{{ path('sortie_desinscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="annulation-btn" >Désinscription</a>
-        {% else %}
-        <a href="{{ path('sortie_inscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="validation-btn" >Inscription</a>
-        {% endif %}
-        {% endif %}
-    </div>
+
 
 {% endblock %}
 

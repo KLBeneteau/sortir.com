@@ -27,21 +27,19 @@
                 {{ form_row(sortieForm.nbInscriptionsMax) }}
                 {{ form_row(sortieForm.duree) }}
                 {{ form_row(sortieForm.infosSortie) }}
-                <div class="btn-many-div">
                     <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
                     <button class="validation-btn" type="submit" name="submitAction" value="publier">Publier la sortie</button>
-                    {% if modification %}
-                        <form action="{{ path('sortie_supprimer') }}" method="post">
-                            <input type="hidden" name="sortie_id" value="{{ sortie.id }}">
-                            <button class="validation-btn" type="submit">Supprimer</button>
-                        </form>
-                    {% endif %}
-                    <form action="{{ path('main_accueil') }}" method="post">
-                        <button class="annulation-btn" type="submit">Annuler</button>
-                    </form>
-                </div>
                 {{ form_end(sortieForm) }}
             </div>
+            {% if modification %}
+                <form action="{{ path('sortie_supprimer') }}" method="post">
+                    <input type="hidden" name="sortie_id" value="{{ sortie.id }}">
+                    <button class="validation-btn" type="submit">Supprimer</button>
+                </form>
+            {% endif %}
+            <form action="{{ path('main_accueil') }}" method="post">
+                <button class="annulation-btn" type="submit">Annuler</button>
+            </form>
         </div>
     </div>
 
