@@ -2,102 +2,116 @@
 
 {% block title%}Toutes les sorties{% endblock %}
 {% block body %}
-        <div>
-            <p>Date du jour : {{ "now" | date('d/m/Y') }}</p>
-            {% if is_granted('ROLE_USER') %}
-            <p>Participant : {{ app.user.pseudo }}</p>
-            {% endif %}
+    <div class="info-utilisateur">
+        <p class="info-jour">Date du jour : {{ "now" | date('d/m/Y') }}</p>
+        {% if is_granted('ROLE_USER') %}
+            <p class="info-participant">Participant : {{ app.user.pseudo }}</p>
+        {% endif %}
+    </div>
+    <div class="container-recap">
+        <h1>Filtrer les sorties</h1>
+        <div class="formulaire">
+            <div class="contenu-form">
+                <form action="{{ path('main_accueil') }}" method="post">
+                    <div>
+                        <label class="accueil-label" for="filtre_campus">Campus</label>
+                        <select name="filtre_campus" id="filtre_campus">
+                            <option value="-1">Tout les campus</option>
+                            {% for campus in campusList %}
+                                <option value="{{ campus.id }}">{{ campus.nom }}</option>
+                            {% endfor %}
+                        </select> <br>
+                        <label class="accueil-label" for="filtre_nomSortie">Le nom de la sortie contient</label>
+                        <input type="text" name="filtre_nomSortie" id="filtre_nomSortie" placeholder="Rechercher une sortie…">
+                        <div class="champ-date">
+                            <div class="champ-date-bis">
+                                <label class="accueil-label" for="filtre_dateDeb">Entre </label>
+                                <input type="date" name="filtre_dateDeb" id="filtre_dateDeb">
+                            </div>
+                            <div class="champ-date-bis">
+                                <label class="accueil-label" for="filtre_dateFin">et </label>
+                                <input type="date" name="filtre_dateFin" id="filtre_dateFin">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="checkbox-div">
+                            <input class="souvenir-input" type="checkbox" name="filtre_CB_organisateur" id="filtre_CB_organisateur" value='true'>
+                            <label class="checkbox-label" for="filtre_CB_organisateur">Sorties dont je suis l'organisateur.trice</label>
+                        </div>
+                        <div class="checkbox-div">
+                            <input class="souvenir-input" type="checkbox" name="filtre_CB_inscrit" id="filtre_CB_inscrit" value='true'>
+                            <label class="checkbox-label" for="filtre_CB_inscrit">Sorties auxquelles je suis inscrit.e</label>
+                        </div>
+                        <div class="checkbox-div">
+                            <input class="souvenir-input" type="checkbox" name="filtre_CB_pasInscrit" id="filtre_CB_pasInscrit" value='true'>
+                            <label class="checkbox-label" for="filtre_CB_pasInscrit">Sorties auxquelles je ne suis pas inscrit.e</label>
+                        </div>
+                        <div class="checkbox-div">
+                            <input class="souvenir-input" type="checkbox" name="filtre_CB_passer" id="filtre_CB_passer" value='true'>
+                            <label class="checkbox-label" for="filtre_CB_passer">Sorties passées</label>
+                        </div>
+                    </div>
+                    <input class="rechercher-btn" type="submit" value="Rechercher">
+                </form>
+            </div>
         </div>
-
-        <h2>Filtrer les sorties</h2>
-
-        <form action="{{ path('main_accueil') }}" method="post">
-            <div>
-                <label for="filtre_campus">Campus</label>
-                <select name="filtre_campus" id="filtre_campus">
-                    <option value="-1">Tout les campus</option>
-                    {% for campus in campusList %}
-                        <option value="{{ campus.id }}">{{ campus.nom }}</option>
-                    {% endfor %}
-                </select>
-                <label for="filtre_nomSortie">le nom de la sortie contient</label>
-                <input type="text" name="filtre_nomSortie" id="filtre_nomSortie" placeholder="recherche">
-                <div>
-                    <label for="filtre_dateDeb">Entre </label>
-                    <input type="date" name="filtre_dateDeb" id="filtre_dateDeb">
-                </div>
-                <div>
-                    <label for="filtre_dateFin">et </label>
-                    <input type="date" name="filtre_dateFin" id="filtre_dateFin">
-                </div>
-            </div>
-            <div>
-                <input type="checkbox" name="filtre_CB_organisateur" id="filtre_CB_organisateur" value='true'>
-                <label for="filtre_CB_organisateur">Sorties dont je suis l'organisateur.trice</label>
-                <input type="checkbox" name="filtre_CB_inscrit" id="filtre_CB_inscrit" value='true'>
-                <label for="filtre_CB_inscrit">Sorties auxquelles je suis inscrit.e</label>
-                <input type="checkbox" name="filtre_CB_pasInscrit" id="filtre_CB_pasInscrit" value='true'>
-                <label for="filtre_CB_pasInscrit">Sorties auxquelles je ne suis pas inscrit.e</label>
-                <input type="checkbox" name="filtre_CB_passer" id="filtre_CB_passer" value='true'>
-                <label for="filtre_CB_passer">Sorties passées</label>
-            </div>
-            <input type="submit" value="Rechercher">
-        </form>
-
-        <div>
-            <table>
-                <thead>
-                <tr>
-                    <th>Nom de la sortie</th>
-                    <th>Date de la sortie</th>
-                    <th>Clôture</th>
-                    <th>Inscrits/Places</th>
-                    <th>Etat</th>
-                    <th>Inscrit</th>
-                    <th>Organisateur</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {% for sortie in sortiesList %}
-                        <tr>
-                        <td>{{ sortie.nom }}</td>
-                        <td>{{ sortie.dateHeureDebut | date("d/m/Y à H:i")}}</td>
-                        <td>{{ sortie.dateLimiteInscription.format('d/m/Y') }}</td>
-                        <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
-                        <td>{{ sortie.etat.libelle }}</td>
-                        <td>{% if sortie.participants.contains(app.user) %} X {% endif %} </td>
-                        <td><a href="{{ path('profil_consulter', {'id': sortie.organisateur.id} ) }}" >{{ sortie.organisateur.pseudo }}</a></td>
-                        <td>
-                            {% if app.user.id == sortie.organisateur.id %}
-                                {% if sortie.etat.libelle == 'Créée' %}
-                                    <a href="{{ path('sortie_modifier', {'id': sortie.id} ) }}" >Modifier</a>
-                                    <a href="#" >Todo : Publier</a>
-                                {% elseif sortie.etat.libelle =='Ouverte' %}
-                                    <a href="{{ path('sortie_afficher', {'id_sortie': sortie.id} ) }}" >Afficher</a>
-                                    <a href="{{ path('sortie_annuler', {'id': sortie.id} ) }}" >Annuler</a>
-                                {% endif %}
-                            {% else %}
+    </div>
+    <div>
+        <table class="liste">
+            <thead>
+            <tr class="ligne-titre">
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/Places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sortie in sortiesList %}
+                <tr class="ligne-contenu-1">
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut | date("d/m/Y à H:i")}}</td>
+                    <td>{{ sortie.dateLimiteInscription.format('d/m/Y') }}</td>
+                    <td>{{ sortie.participants.count }}/{{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.etat.libelle }}</td>
+                    <td>{% if sortie.participants.contains(app.user) %} X {% endif %} </td>
+                    <td><a href="{{ path('profil_consulter', {'id': sortie.organisateur.id} ) }}" >{{ sortie.organisateur.pseudo }}</a></td>
+                    <td>
+                        {% if app.user.id == sortie.organisateur.id %}
+                            {% if sortie.etat.libelle == 'Créée' %}
+                                <a href="{{ path('sortie_modifier', {'id': sortie.id} ) }}" >Modifier</a>
+                                <a href="#" >Todo : Publier</a>
+                            {% elseif sortie.etat.libelle =='Ouverte' %}
                                 <a href="{{ path('sortie_afficher', {'id_sortie': sortie.id} ) }}" >Afficher</a>
-                                {% if sortie.etat.libelle == 'Ouverte' %}
-                                    {% if sortie.participants.contains(app.user) %}
-                                        <a href="#" >Todo : se desinscrire</a>
-                                    {% else %}
-                                        <a href="#" >Todo : s'inscrire</a>
-                                    {% endif %}
-                                {% elseif sortie.etat.libelle == 'Clôturée' %}
-                                    {% if sortie.participants.contains(app.user) %}
-                                        <a href="#" >Todo : se desinscrire</a>
-                                    {% endif %}
+                                <a href="{{ path('sortie_annuler', {'id': sortie.id} ) }}" >Annuler</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('sortie_afficher', {'id_sortie': sortie.id} ) }}" >Afficher</a>
+                            {% if sortie.etat.libelle == 'Ouverte' %}
+                                {% if sortie.participants.contains(app.user) %}
+                                    <a href="#" >Todo : se desinscrire</a>
+                                {% else %}
+                                    <a href="#" >Todo : s'inscrire</a>
+                                {% endif %}
+                            {% elseif sortie.etat.libelle == 'Clôturée' %}
+                                {% if sortie.participants.contains(app.user) %}
+                                    <a href="#" >Todo : se desinscrire</a>
                                 {% endif %}
                             {% endif %}
-                        </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-    <button onclick="window.location.href = './sortie/creer';">Créer une sortie</button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="btn-ajouter-div">
+        <button class="ajouter-btn" onclick="window.location.href = './sortie/creer';"><img class="picto" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoJPGc+CgkJPHBhdGggZD0iTTI1NiwwQzExNC44MzMsMCwwLDExNC44MzMsMCwyNTZzMTE0LjgzMywyNTYsMjU2LDI1NnMyNTYtMTE0Ljg1MywyNTYtMjU2UzM5Ny4xNjcsMCwyNTYsMHogTTI1Niw0NzIuMzQxICAgIGMtMTE5LjI3NSwwLTIxNi4zNDEtOTcuMDQ2LTIxNi4zNDEtMjE2LjM0MVMxMzYuNzI1LDM5LjY1OSwyNTYsMzkuNjU5UzQ3Mi4zNDEsMTM2LjcwNSw0NzIuMzQxLDI1NlMzNzUuMjk1LDQ3Mi4zNDEsMjU2LDQ3Mi4zNDF6ICAgICIgZmlsbD0iI2ZmZmZmZiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgc3R5bGU9IiIgY2xhc3M9IiI+PC9wYXRoPgoJPC9nPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+Cgk8Zz4KCQk8cGF0aCBkPSJNMzU1LjE0OCwyMzQuMzg2SDI3NS44M3YtNzkuMzE4YzAtMTAuOTQ2LTguODY0LTE5LjgzLTE5LjgzLTE5Ljgzcy0xOS44Myw4Ljg4NC0xOS44MywxOS44M3Y3OS4zMThoLTc5LjMxOCAgICBjLTEwLjk2NiwwLTE5LjgzLDguODg0LTE5LjgzLDE5LjgzczguODY0LDE5LjgzLDE5LjgzLDE5LjgzaDc5LjMxOHY3OS4zMThjMCwxMC45NDYsOC44NjQsMTkuODMsMTkuODMsMTkuODMgICAgczE5LjgzLTguODg0LDE5LjgzLTE5Ljgzdi03OS4zMThoNzkuMzE4YzEwLjk2NiwwLDE5LjgzLTguODg0LDE5LjgzLTE5LjgzUzM2Ni4xMTQsMjM0LjM4NiwzNTUuMTQ4LDIzNC4zODZ6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIiBjbGFzcz0iIj48L3BhdGg+Cgk8L2c+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPC9nPjwvc3ZnPg==" />Créer une sortie</button>
+    </div>
 {% endblock %}
 

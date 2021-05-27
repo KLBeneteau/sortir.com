@@ -6,7 +6,7 @@
 
 {% block body %}
     <div>
-        <h1>Afficher une sortie</h1>
+        <h1>Afficher une sortie | Organisateur : {{ sortie.organisateur.pseudo}}</h1>
     </div>
     <div class="container-sortie">
         <div class="barre-verticale"></div>
@@ -30,7 +30,7 @@
                     <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.latitude }}</li>
                 {% endif %}
                 {% if sortie.lieu.longitude %}
-                    <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.longitude }}</li>
+                    <li class="champ-li"><span class="nom-champ">Longitude : </span>{{ sortie.lieu.longitude }}</li>
                 {% endif %}
             </ul>
         </div>
@@ -49,6 +49,10 @@
                             <th class="colonne-contenu">{{ participant.pseudo }}</th>
                             <th class="colonne-contenu">{{ participant.prenom}} {{ participant.nom }}</th>
                         </tr>
+                    {% endfor %}
+                {% endif %}
+                {% if participants is not empty %}
+                    {% for participant in participants %}
                         <tr class="ligne-contenu-2">
                             <th class="colonne-contenu">{{ participant.pseudo }}</th>
                             <th class="colonne-contenu">{{ participant.prenom}} {{ participant.nom }}</th>
