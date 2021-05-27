@@ -6,11 +6,27 @@ h1{
     font-size: 4em;
     text-align: center;
 }
+h2{
+    text-align: left;
+    background-color: #212121;
+    width: fit-content;
+    padding: 3px 10px;
+    color: white;
+    font-size: 1.2em;
+}
 a
 {
     text-decoration: none;
 }
-
+tr{
+    height: 50px;
+    vertical-align: middle;
+}
+th{
+    width: 150px;
+    text-align: center;
+    font-size: 0.9em;
+}
 .menu-ul{
     list-style: none;
     display: flex;
@@ -29,6 +45,19 @@ a
     margin: 0 auto;
     width: 50%;
     margin-top: 100px;
+}
+.container-sortie
+{
+    margin: 0 auto;
+    display: flex;
+    width: 35%;
+    margin-top: 25px;
+}
+.container-recap
+{
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 25px;
 }
 .form-login
 {
@@ -229,7 +258,15 @@ a
 {
     border-style: none;
 }
-.info-profil-ul
+.info
+{
+    margin: 0 auto;
+}
+.barre-verticale
+{
+    border-left: 3px solid #efefef;
+}
+.info-ul
 {
     list-style: none;
     font-size: 1.5em;
@@ -331,6 +368,7 @@ h1
 {
     font-size: x-large;
     text-align:center;
+    margin-bottom: 70px;
 }
 
 #col {
