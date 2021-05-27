@@ -36,6 +36,7 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+
             $etatRepository = $entityManager->getRepository(Etat::class);
 
             $sortie->setCampus($user->getCampus());
@@ -183,7 +184,7 @@ class SortieController extends AbstractController
         $annulerSortieForm->handleRequest($request);
 
         if($annulerSortieForm->isSubmitted() && $annulerSortieForm->isValid()) {
-            $sortie->setInfosSortie($annulerSortieForm['infosSortie']->getData());
+            $sortie->setMotifAnnulation($annulerSortieForm['motifAnnulation']->getData());
             $sortie->setEtat(($etatRepository->findOneBy(["libelle" => "Annulée"])));
 
             $entityManager->persist($sortie);

@@ -4,10 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Participant;
 use App\Entity\Sortie;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,10 +20,6 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    /**
-     * Fonction qui récupère les sorties sans une recherche.
-     * @return Sortie[]
-     */
     public function recherchesSorties(
               int $campusId,
               String $nomSortie,
@@ -35,12 +29,14 @@ class SortieRepository extends ServiceEntityRepository
               bool $cb_inscrit,
               bool $cb_pasInscrit,
               bool $cb_passer,
-              Participant $curentUser,
-              int $etatPasserId
+              bool $cb_annuler,
+              Participant $curentUser
         ): array
     {
 
-        $requestSql =  $this->createQueryBuilder('s') ;
+        $requestSql =  $this->createQueryBuilder('s')
+                            ->innerJoin("s.etat",'e')->addSelect('e')
+                            ->orderBy('s.dateHeureDebut');
 
         if ($campusId!=-1) {
             $requestSql->andWhere('s.campus = :campusId')
@@ -62,32 +58,52 @@ class SortieRepository extends ServiceEntityRepository
                 ->setParameter('dateFin',date_create($dateFin));
         }
 
-        if($cb_organisateur || $cb_inscrit || $cb_pasInscrit ||$cb_passer) {
+        $whereEtat = '';
+
+        if ($cb_passer) {
+             $whereEtat .= "e.libelle = 'Passée' " ;
+        } else {
+             $whereEtat .= "e.libelle != 'Passée' " ;
+        }
+        if ($cb_passer && $cb_annuler) $whereEtat .= 'OR ' ; else $whereEtat .= 'AND ';
+        if ($cb_annuler) {
+             $whereEtat .= "e.libelle = 'Annulée'" ;
+        } else {
+             $whereEtat .= "e.libelle != 'Annulée'" ;
+        }
+
+        $requestSql->andWhere(preg_replace('#OR $|AND $#','',$whereEtat));
+
+        if($cb_organisateur || $cb_inscrit || $cb_pasInscrit) {
             $orWhere = '';
 
             if ($cb_organisateur) {
                 $orWhere .= 's.organisateur = :orga OR ' ;
             }
-            /**
+
+
+            $TableauInscription = implode(',',$curentUser->getInscriptions()->toArray())  ;
+            if($TableauInscription=""){
+                $TableauInscription= '-1' ;
+            }
+
             if ($cb_inscrit) {
-                $orWhere .= 's.participants = :userI OR ' ;
+                $orWhere .= 's.id IN (:listInscriptionUser) OR ' ;
             }
 
             if ($cb_pasInscrit) {
-                $orWhere .= 's.participants != :userPasI OR ' ;
+                $orWhere .= 's.id NOT IN (:listInscriptionUser2) OR ' ;
             }
-            */
-            if ($cb_passer) {
-                $orWhere .= 's.etat = :etat OR ' ;
-            }
+
 
             $requestSql->andWhere(preg_replace('#OR $#','',$orWhere));
 
             if($cb_organisateur) {$requestSql->setParameter('orga', $curentUser);}
-            if($cb_inscrit) {$requestSql->setParameter('userI', $curentUser);}
-            if($cb_pasInscrit) {$requestSql->setParameter('userPasI', $curentUser);}
-            if($cb_passer) {$requestSql->setParameter('etat', $etatPasserId);}
+            if($cb_inscrit) {$requestSql->setParameter('listInscriptionUser', $TableauInscription);}
+            if($cb_pasInscrit) {$requestSql->setParameter('listInscriptionUser2', $TableauInscription);}
         }
+
+        dump($requestSql->getQuery());
 
         return $requestSql->getQuery()->getResult();
     }
