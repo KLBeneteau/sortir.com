@@ -17,11 +17,6 @@
                 <li class="champ-li"><span class="nom-champ">Date limite d'inscription : </span>{{ sortie.dateLimiteInscription |date("d-m-Y")}}</li>
                 <li class="champ-li"><span class="nom-champ">Nombre de places : </span>{{ sortie.nbInscriptionsMax }}</li>
                 <li class="champ-li"><span class="nom-champ">Durée : </span>{{ sortie.duree }} minutes</li>
-                {% if sortie.etat.libelle == 'Annulée' %}
-                    <li class="champ-li"><span class="nom-champ">Sortie annulée pour le motif : </span>{{ sortie.infosSortie }}</li>
-                {% else %}
-                    <li class="champ-li"><span class="nom-champ">Description : </span>{{ sortie.infosSortie }}</li>
-                {% endif %}
                 <li class="champ-li"><span class="nom-champ">Campus : </span>{{ sortie.campus.nom }}</li>
                 <li class="champ-li"><span class="nom-champ">Lieu : </span>{{ sortie.lieu.nom }}</li>
                 <li class="champ-li"><span class="nom-champ">Rue : </span>{{ sortie.lieu.rue }}</li>
@@ -31,6 +26,11 @@
                 {% endif %}
                 {% if sortie.lieu.longitude %}
                     <li class="champ-li"><span class="nom-champ">Latitude : </span>{{ sortie.lieu.longitude }}</li>
+                {% endif %}
+                {% if sortie.etat.libelle == 'Annulée' %}
+                    <li class="champ-li"><span class="nom-champ">Sortie annulée pour le motif : </span>{{ sortie.motifAnnulation }}</li>
+                {% else %}
+                    <li class="champ-li"><span class="nom-champ">Description : </span>{{ sortie.infosSortie }}</li>
                 {% endif %}
             </ul>
         </div>
