@@ -5,54 +5,63 @@
 {% endblock %}
 
 {% block body %}
-    <h3>Filtrer les campus</h3>
-    <form method="post" action="{{ path('campus_create') }}">
-        <label for="filtre">Le nom contient : </label>
-        <input type="text" name="filtre" id="filtre">
-        <input type="submit" value="Rechercher">
-    </form>
-    <table border="1">
-        <tr>
-            <th>Campus</th>
-            <th>Actions</th>
-        </tr>
-        {% for campus in campusList %}
-            {% if idCampusAModifier == campus.id %}
+    <div class="container-recap">
+        <h1>Filtrer les campus</h1>
+        <div class="formulaire">
+            <div class="contenu-form">
+                <form method="post" action="{{ path('campus_create') }}">
+                    <label class="accueil-label" for="filtre">Le nom contient : </label>
+                    <input type="text" name="filtre" id="filtre" placeholder="Rechercher par mot clé…">
+                    <br>
+                    <input class="rechercher-btn" type="submit" value="Rechercher">
+                </form>
+            </div>
+        </div>
+        <table class="liste">
+            <tr class="ligne-titre">
+                <th class="colonne-titre-campus">Campus</th>
+                <th class="colonne-titre-campus">Actions</th>
+            </tr>
+            {% for campus in campusList %}
+                {% if idCampusAModifier == campus.id %}
+                    <tr class="ligne-contenu-1">
+                        {{ form_start(campusForm) }}
+                        <th class="colonne-contenu">{{ form_widget(campusForm.nom) }}</th>
+                        <th class="colonne-contenu">
+                            <button type="submit" name="campus_id" value="{{ campus.id }}">Confirmer</button>
+                            {{ form_end(campusForm) }}
+                            <form method="post" action="{{ path('campus_create') }}">
+                                <button type="submit">Annuler</button>
+                            </form>
+                        </th>
+                    </tr>
+
+                {% else %}
+                    <tr>
+                        <th>{{ campus.nom }}</th>
+                        <th>
+                            <div class="btn-2-div">
+                                <form method="post" action=" {{ path('campus_update') }}">
+                                    <input type="hidden" name="campus_id" value="{{ campus.id }}"/>
+                                    <button class="validation-btn-small" type="submit" name="campus_id" value="{{ campus.id }}" >Modifier</button>
+                                </form>
+                                <form method="post" action=" {{ path('campus_delete') }}">
+                                    <input type="hidden" name="campus_id" value="{{ campus.id }}"/>
+                                    <button class="annulation-btn-small" type="submit">Supprimer</button>
+                                </form>
+                            </div>
+                        </th>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            {% if idCampusAModifier is null %}
                 <tr>
                     {{ form_start(campusForm) }}
                     <th>{{ form_widget(campusForm.nom) }}</th>
-                    <th>
-                        <button type="submit" name="campus_id" value="{{ campus.id }}">Confirmer</button>
-                        {{ form_end(campusForm) }}
-                        <form method="post" action="{{ path('campus_create') }}">
-                            <button type="submit">Annuler</button>
-                        </form>
-                    </th>
-                </tr>
-
-            {% else %}
-                <tr>
-                    <th>{{ campus.nom }}</th>
-                    <th>
-                        <form method="post" action=" {{ path('campus_update') }}">
-                            <input type="hidden" name="campus_id" value="{{ campus.id }}"/>
-                            <button type="submit" name="campus_id" value="{{ campus.id }}" >Modifier</button>
-                        </form>
-                        <form method="post" action=" {{ path('campus_delete') }}">
-                            <input type="hidden" name="campus_id" value="{{ campus.id }}"/>
-                            <button type="submit">Supprimer</button>
-                        </form>
-                    </th>
+                    <th><button class="ajouter-btn" type="submit"><img class="picto" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoJPGc+CgkJPHBhdGggZD0iTTI1NiwwQzExNC44MzMsMCwwLDExNC44MzMsMCwyNTZzMTE0LjgzMywyNTYsMjU2LDI1NnMyNTYtMTE0Ljg1MywyNTYtMjU2UzM5Ny4xNjcsMCwyNTYsMHogTTI1Niw0NzIuMzQxICAgIGMtMTE5LjI3NSwwLTIxNi4zNDEtOTcuMDQ2LTIxNi4zNDEtMjE2LjM0MVMxMzYuNzI1LDM5LjY1OSwyNTYsMzkuNjU5UzQ3Mi4zNDEsMTM2LjcwNSw0NzIuMzQxLDI1NlMzNzUuMjk1LDQ3Mi4zNDEsMjU2LDQ3Mi4zNDF6ICAgICIgZmlsbD0iI2ZmZmZmZiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgc3R5bGU9IiIgY2xhc3M9IiI+PC9wYXRoPgoJPC9nPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+Cgk8Zz4KCQk8cGF0aCBkPSJNMzU1LjE0OCwyMzQuMzg2SDI3NS44M3YtNzkuMzE4YzAtMTAuOTQ2LTguODY0LTE5LjgzLTE5LjgzLTE5Ljgzcy0xOS44Myw4Ljg4NC0xOS44MywxOS44M3Y3OS4zMThoLTc5LjMxOCAgICBjLTEwLjk2NiwwLTE5LjgzLDguODg0LTE5LjgzLDE5LjgzczguODY0LDE5LjgzLDE5LjgzLDE5LjgzaDc5LjMxOHY3OS4zMThjMCwxMC45NDYsOC44NjQsMTkuODMsMTkuODMsMTkuODMgICAgczE5LjgzLTguODg0LDE5LjgzLTE5Ljgzdi03OS4zMThoNzkuMzE4YzEwLjk2NiwwLDE5LjgzLTguODg0LDE5LjgzLTE5LjgzUzM2Ni4xMTQsMjM0LjM4NiwzNTUuMTQ4LDIzNC4zODZ6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIiBjbGFzcz0iIj48L3BhdGg+Cgk8L2c+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPC9nPjwvc3ZnPg==" />Ajouter</button></th>
+                    {{ form_end(campusForm) }}
                 </tr>
             {% endif %}
-        {% endfor %}
-        {% if idCampusAModifier is null %}
-            <tr>
-                {{ form_start(campusForm) }}
-                <th>{{ form_widget(campusForm.nom) }}</th>
-                <th><button type="submit">Ajouter</button></th>
-                {{ form_end(campusForm) }}
-            </tr>
-        {% endif %}
-    </table>
+        </table>
+    </div>
 {% endblock %}
