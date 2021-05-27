@@ -33,8 +33,8 @@ class MainController extends AbstractController
            is_null($request->get('filtre_CB_inscrit'))? false : true,
            is_null($request->get('filtre_CB_pasInscrit'))? false : true,
            is_null($request->get('filtre_CB_passer'))? false : true,
-           $this->getUser(),
-           $etatRepository->findOneBy(['libelle'=>'Passée'])->getId()
+           is_null($request->get('filtre_CB_annuler'))? false : true,
+           $this->getUser()
        );
        $campusList = $campusRepository->findAll();
 
