@@ -10,34 +10,38 @@
         <h1>{% if modification %} Modifier {% else %} Créez {% endif %} une sortie</h1>
         <p id="description">Vous {% if modification %} modifier {% else %} créez {% endif %} une sortie pour le campus de {{ app.user.campus.nom }} !</p>
     </div>
-    <div class="container">
-            <div class="formulaire">
-                <div class="contenu-form">
-                    {{ form_start(sortieForm) }}
-                    {{ form_row(sortieForm.lieu) }}
-                    <a href="{{ path('lieu_creer') }}" class="href"><strong>Si ton lieu n'est pas encore créé : ajoute-le !</strong></a>
-                    <br>
+    <div class="container-form">
+        <div class="formulaire">
+            <div class="contenu-form">
+                {{ form_start(sortieForm) }}
+                {{ form_row(sortieForm.lieu) }}
+                <div class="lien-ajout">
+                    <a href="{{ path('lieu_creer') }}" class="lien-ajout-a">
+                        <img class="picto" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoJPGc+CgkJPHBhdGggZD0iTTI1NiwwQzExNC44MzMsMCwwLDExNC44MzMsMCwyNTZzMTE0LjgzMywyNTYsMjU2LDI1NnMyNTYtMTE0Ljg1MywyNTYtMjU2UzM5Ny4xNjcsMCwyNTYsMHogTTI1Niw0NzIuMzQxICAgIGMtMTE5LjI3NSwwLTIxNi4zNDEtOTcuMDQ2LTIxNi4zNDEtMjE2LjM0MVMxMzYuNzI1LDM5LjY1OSwyNTYsMzkuNjU5UzQ3Mi4zNDEsMTM2LjcwNSw0NzIuMzQxLDI1NlMzNzUuMjk1LDQ3Mi4zNDEsMjU2LDQ3Mi4zNDF6ICAgICIgZmlsbD0iI2ZmZmZmZiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgc3R5bGU9IiIgY2xhc3M9IiI+PC9wYXRoPgoJPC9nPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+Cgk8Zz4KCQk8cGF0aCBkPSJNMzU1LjE0OCwyMzQuMzg2SDI3NS44M3YtNzkuMzE4YzAtMTAuOTQ2LTguODY0LTE5LjgzLTE5LjgzLTE5Ljgzcy0xOS44Myw4Ljg4NC0xOS44MywxOS44M3Y3OS4zMThoLTc5LjMxOCAgICBjLTEwLjk2NiwwLTE5LjgzLDguODg0LTE5LjgzLDE5LjgzczguODY0LDE5LjgzLDE5LjgzLDE5LjgzaDc5LjMxOHY3OS4zMThjMCwxMC45NDYsOC44NjQsMTkuODMsMTkuODMsMTkuODMgICAgczE5LjgzLTguODg0LDE5LjgzLTE5Ljgzdi03OS4zMThoNzkuMzE4YzEwLjk2NiwwLDE5LjgzLTguODg0LDE5LjgzLTE5LjgzUzM2Ni4xMTQsMjM0LjM4NiwzNTUuMTQ4LDIzNC4zODZ6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIiBjbGFzcz0iIj48L3BhdGg+Cgk8L2c+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPC9nPjwvc3ZnPg==" />                        Si ton lieu n'est pas encore créé : ajoute-le !
+                    </a>
+                </div>
 
-                    {{ form_row(sortieForm.nom) }}
-                    {{ form_row(sortieForm.dateHeureDebut) }}
-                    {{ form_row(sortieForm.dateLimiteInscription) }}
-                    {{ form_row(sortieForm.nbInscriptionsMax) }}
-                    {{ form_row(sortieForm.duree) }}
-                    {{ form_row(sortieForm.infosSortie) }}
-
+                {{ form_row(sortieForm.nom) }}
+                {{ form_row(sortieForm.dateHeureDebut) }}
+                {{ form_row(sortieForm.dateLimiteInscription) }}
+                {{ form_row(sortieForm.nbInscriptionsMax) }}
+                {{ form_row(sortieForm.duree) }}
+                {{ form_row(sortieForm.infosSortie) }}
+                <div class="btn-many-div">
                     <button class="validation-btn" type="submit" name="submitAction" value="enregistrer">Enregistrer</button>
                     <button class="validation-btn" type="submit" name="submitAction" value="publier">Publier la sortie</button>
-                    {{ form_end(sortieForm) }}
                     {% if modification %}
-                    <form action="{{ path('sortie_supprimer') }}" method="post">
-                        <input type="hidden" name="sortie_id" value="{{ sortie.id }}">
-                        <button class="validation-btn" type="submit">Supprimer</button>
-                    </form>
+                        <form action="{{ path('sortie_supprimer') }}" method="post">
+                            <input type="hidden" name="sortie_id" value="{{ sortie.id }}">
+                            <button class="validation-btn" type="submit">Supprimer</button>
+                        </form>
                     {% endif %}
+                    <form action="{{ path('main_accueil') }}" method="post">
+                        <button class="annulation-btn" type="submit">Annuler</button>
+                    </form>
                 </div>
-                <form action="{{ path('main_accueil') }}" method="post">
-                    <button class="annulation-btn" type="submit">Annuler</button>
-                </form>
+                {{ form_end(sortieForm) }}
+            </div>
         </div>
     </div>
 

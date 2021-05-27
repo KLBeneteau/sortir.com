@@ -64,7 +64,6 @@ a
 {
     width: 10%;
 }
-
 .menu-a
 {
     color: #212121;
@@ -90,11 +89,15 @@ a
 {
     display: inline-block;
     width: 60%;
+    margin: 20px 0 0 30px;
 }
 .nav-div
 {
     display: inline-block;
     width: 40%;
+    text-align: right;
+    position: absolute;
+    right: 52px;
 }
 
 .container
@@ -108,8 +111,36 @@ a
 {
     display: flex;
     margin: 0 auto;
-    width: 70%;
+    width: 75%;
     margin-bottom: 30px;
+}
+.lien-ajout-a
+{
+    color: white;
+}
+.lien-ajout
+{
+    background-color: #212121;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 3px 10px;
+    margin-bottom: 20px;
+    border: 2px solid #212121;
+    border-radius: 20px;
+    transition: all 1s;
+}
+.lien-ajout:hover
+{
+    background-color: #f5df4d;
+    border: 2px solid #f5df4d;
+
+}
+.picto
+{
+    color: white;
+    width: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
 }
 .nom-champ
 {
@@ -136,7 +167,10 @@ a
     width: 400px;
     text-align: center;
 }
-
+.btn-many-div {
+    margin: 0 auto;
+    text-align: center;
+}
 .annulation-btn
 {
     border: 7px solid #212121;
@@ -249,6 +283,7 @@ label
     text-align: right;
     margin-right: 10px;
     width: 15%;
+    vertical-align: top;
 }
 
 .flash{
