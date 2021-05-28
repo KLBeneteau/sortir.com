@@ -140,7 +140,7 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id_sortie);
         $participant = $participantRepository->find($id_participant);
-        if ($id_participant != $this->getUser()->getId()) {
+        if ($id_participant != $sortie->getOrganisateur()->getId()) {
             if ($participant && $sortie) {
                 $participant->addInscription($sortie);
                 $entityManagerInterface->flush();

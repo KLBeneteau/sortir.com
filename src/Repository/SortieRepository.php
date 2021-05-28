@@ -110,8 +110,6 @@ class SortieRepository extends ServiceEntityRepository
             if($cb_pasInscrit) {$requestSql->setParameter('listInscriptionUser2', $TableauInscription);}
         }
 
-        dump($requestSql->getQuery());
-
         return $requestSql->getQuery()->getResult();
     }
 }
