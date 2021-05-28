@@ -20,7 +20,8 @@
                     <td>{{ participant.prenom }}</td>
                     <td>{{ participant.pseudo }}</td>
                     <td>{{ participant.email }}</td>
-                    <td><form method="post" action="{{ path('participant_delete') }}">
+                    <td>
+                        <form method="post" action="{{ path('participant_delete') }}">
                             <input type="hidden" name="participant_id" value="{{ participant.id }}">
                             <button class="annulation-btn-small" type="submit" name="participant_delete" value="{{ participant.id }}">Supprimer</button>
                         </form>

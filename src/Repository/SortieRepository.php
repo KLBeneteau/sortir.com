@@ -21,15 +21,10 @@ class SortieRepository extends ServiceEntityRepository
     }
     public function findByOrganisateur(Participant $participant){
         //return la liste des sorties organisées par le participant donné en paramètres.
-
-
-        if($participant)
-            return $this->createQueryBuilder('listeSortie')
-                        ->andWhere('listeSortie.organisateur LIKE ?')
-                        ->getQuery();
-
-        else
-            return $this->findAll();
+        return $this->createQueryBuilder('s')
+            ->where('s.organisateur = ?1')
+            ->setParameter(1,$participant)
+            ->getQuery()->getResult();
 
     }
     public function recherchesSorties(
