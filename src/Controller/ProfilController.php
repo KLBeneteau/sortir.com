@@ -30,7 +30,61 @@ class ProfilController extends AbstractController
 
     }
     /**
-     * @Route("/creer", name="profil_creer")
+     * @Route("/creer", name="profil_creerr")
+     */
+    public function creer(
+        Request $request,
+        Participant $participant = null,
+        EntityManagerInterface $entityManager,
+        UserPasswordEncoderInterface $passwordEncoder,
+        string $photoDir,
+        GuardAuthenticatorHandler $guardHandler,
+        AppAuthenticator $authenticator): Response
+    {
+        $string = "modifié" ;
+        if (!$participant){
+            $string = "créé" ;
+            $participant = new Participant();
+        }
+        $profilForm = $this->createForm(CreerProfilType::class, $participant);
+
+        $profilForm->handleRequest($request);
+
+        if ($profilForm->isSubmitted() && $profilForm->isValid()) {
+            $participant->setPassword(
+                $passwordEncoder->encodePassword(
+                    $participant,
+                    $profilForm->get('plainPassword')->getData()
+                )
+            );
+            if ($photo = $profilForm['photo']->getData()) {
+                $photoProfil = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
+                try {
+                    $photo->move($photoDir, $photoProfil);
+                    $participant->setPhotoProfil($photoProfil);
+                } catch (FileException $e) {
+                    // unable to upload the photo, give up
+                }
+            }
+            $entityManager->persist($participant);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre profil a bien été ' . $string);
+
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $participant,
+                $request,
+                $authenticator,
+                'main' // firewall name in security.yaml
+            );
+        }
+        return $this->render('profil/creer.html.twig', [
+            'profilForm' => $profilForm->createView(),
+            'participant' => $participant,
+            'modeGestion'=> $participant->getId() !== null
+        ]);
+    }
+    /**
      * @Route("/profil/gerer/{id}", name="profil_gerer")
      */
     public function creerOuGerer(
@@ -79,7 +133,7 @@ class ProfilController extends AbstractController
                 'main' // firewall name in security.yaml
             );
         }
-        return $this->render('profil/creer-gerer.html.twig', [
+        return $this->render('profil/gerer.html.twig', [
             'profilForm' => $profilForm->createView(),
             'participant' => $participant,
             'modeGestion'=> $participant->getId() !== null
