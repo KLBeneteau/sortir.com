@@ -64,10 +64,13 @@
                 {% else %}
                     <a href="{{ path('sortie_inscription', {'id_participant': app.user.id, 'id_sortie': sortie.id}) }}" class="validation-btn" >Inscription</a>
                 {% endif %}
+
+                {% if (sortie.organisateur.id == app.user.id or is_granted("ROLE_ADMIN")) and sortie.etat.libelle in ['Ouverte','Créée'] %}
+                    <a href="{{ path('sortie_annuler', {'id': sortie.id} ) }}" class="annulation-btn"  >Annuler la sortie </a>
+                {% endif %}
             {% endif %}
         </div>
     </div>
-
 
 {% endblock %}
 
