@@ -89,9 +89,14 @@ class SortieRepository extends ServiceEntityRepository
             }
 
 
-            $TableauInscription = implode(',',$curentUser->getInscriptions()->toArray())  ;
-            if($TableauInscription=""){
-                $TableauInscription= '-1' ;
+            $TableauInscription = [] ;
+            foreach ($curentUser->getInscriptions() as $sortie){
+                $TableauInscription[] = $sortie->getId() ;
+            }
+            $strTableauInscription = implode(',',$TableauInscription)  ;
+
+            if($strTableauInscription==""){
+                $strTableauInscription= '-1' ;
             }
 
             if ($cb_inscrit) {
@@ -106,8 +111,8 @@ class SortieRepository extends ServiceEntityRepository
             $requestSql->andWhere(preg_replace('#OR $#','',$orWhere));
 
             if($cb_organisateur) {$requestSql->setParameter('orga', $curentUser);}
-            if($cb_inscrit) {$requestSql->setParameter('listInscriptionUser', $TableauInscription);}
-            if($cb_pasInscrit) {$requestSql->setParameter('listInscriptionUser2', $TableauInscription);}
+            if($cb_inscrit) {$requestSql->setParameter('listInscriptionUser', $strTableauInscription);}
+            if($cb_pasInscrit) {$requestSql->setParameter('listInscriptionUser2', $strTableauInscription);}
         }
 
         return $requestSql->getQuery()->getResult();
