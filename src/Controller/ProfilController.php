@@ -30,22 +30,19 @@ class ProfilController extends AbstractController
 
     }
     /**
-     * @Route("/creer", name="profil_creerr")
+     * @Route("/creer", name="profil_creer")
      */
     public function creer(
         Request $request,
-        Participant $participant = null,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
         string $photoDir,
         GuardAuthenticatorHandler $guardHandler,
         AppAuthenticator $authenticator): Response
     {
-        $string = "modifié" ;
-        if (!$participant){
-            $string = "créé" ;
-            $participant = new Participant();
-        }
+
+        $participant = new Participant();
+
         $profilForm = $this->createForm(CreerProfilType::class, $participant);
 
         $profilForm->handleRequest($request);
@@ -69,7 +66,7 @@ class ProfilController extends AbstractController
             $entityManager->persist($participant);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre profil a bien été ' . $string);
+            $this->addFlash('success', 'Votre profil a bien été créer');
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $participant,
@@ -81,26 +78,22 @@ class ProfilController extends AbstractController
         return $this->render('profil/creer.html.twig', [
             'profilForm' => $profilForm->createView(),
             'participant' => $participant,
-            'modeGestion'=> $participant->getId() !== null
         ]);
     }
     /**
      * @Route("/profil/gerer/{id}", name="profil_gerer")
      */
-    public function creerOuGerer(
+    public function gerer(
         Request $request,
-        Participant $participant = null,
+        int $id,
+        string $photoDir,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
-        string $photoDir,
-        GuardAuthenticatorHandler $guardHandler,
-        AppAuthenticator $authenticator): Response
+        ParticipantRepository $participantRepository): Response
     {
-        $string = "modifié" ;
-        if (!$participant){
-            $string = "créé" ;
-            $participant = new Participant();
-        }
+
+        $participant = $participantRepository->find($id);
+
         $profilForm = $this->createForm(CreerProfilType::class, $participant);
 
         $profilForm->handleRequest($request);
@@ -124,14 +117,9 @@ class ProfilController extends AbstractController
             $entityManager->persist($participant);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre profil a bien été ' . $string);
+            $this->addFlash('success', 'Votre profil a bien été modifier');
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $participant,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            $this->redirectToRoute('profil_consulter',compact('id'));
         }
         return $this->render('profil/gerer.html.twig', [
             'profilForm' => $profilForm->createView(),
