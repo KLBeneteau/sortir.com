@@ -23,6 +23,8 @@
                     <td><form method="post" action="{{ path('participant_delete') }}">
                             <input type="hidden" name="participant_id" value="{{ participant.id }}">
                             <button type="submit" name="participant_delete" value="{{ participant.id }}">Supprimer</button>
+                            <input type="hidden" name="participant_id" value="">
+                            <button type="submit" name="participant_delete" value="">Supprimer sortie</button>
                         </form>
                     </td>
                 </tr>
@@ -30,6 +32,7 @@
             </tbody>
         </table>
     </div>
+    <button><a href="{{ path('profil_creer') }}">Créer un profil</a></button>
     
 
 {% endblock%}
