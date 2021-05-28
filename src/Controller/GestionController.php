@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ParticipantRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,13 +26,27 @@ class GestionController extends AbstractController
     /**
      * @Route("/admin/gestion/supprimer", name="participant_delete")
      */
-    public function delete(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
+    public function delete(Request $request,
+                           EntityManagerInterface $entityManager,
+                           ParticipantRepository $participantRepository,
+                           SortieRepository  $sortieRepository): Response
     {
 
-       $participant = $participantRepository->findOneBy(['id' => $request->get('participant_id')]);
-       $entityManager->remove($participant);
+       $participantAsupprimer = $participantRepository->findOneBy(['id' => $request->get('participant_id')]);
+
+       //récupère la liste des sortie organisé par mon utilisateur a suprimer, pour les suprimer ensuite
+       $listeSortieASupprimer = $sortieRepository->findByOrganisateur($participantAsupprimer);
+
+       //traitement: suprimer toutes les sorties récupérées.
+
+        return $this->render('gestion/gestion.html.twig', [
+            'listeSortieASupprimer' => $listeSortieASupprimer
+        ]);
+       $entityManager->remove($participantAsupprimer);
        $entityManager->flush();
 
        return $this->redirectToRoute('gestion');
     }
+
+
 }
