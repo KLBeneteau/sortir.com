@@ -140,12 +140,18 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id_sortie);
         $participant = $participantRepository->find($id_participant);
-        if ($participant && $sortie) {
-            $participant->addInscription($sortie);
-            $entityManagerInterface->flush();
-            $this->addFlash('success', 'Félicication ! vous êtes inscrit à cette sortie');
+        if ($id_participant != $this->getUser()->getId()) {
+            if ($participant && $sortie) {
+                $participant->addInscription($sortie);
+                $entityManagerInterface->flush();
+                $this->addFlash('success', 'Félicication ! vous êtes inscrit à cette sortie');
+            }
+            return $this->redirectToRoute('sortie_afficher', ['id_sortie' => $id_sortie]);
+        } else {
+            $this->addFlash('error', "Tu ne peut pas t'inscrire a une sortie que tu organise ! ");
+            return $this->redirectToRoute('sortie_afficher', ['id_sortie' => $id_sortie]);
         }
-        return $this->redirectToRoute('sortie_afficher', ['id_sortie' => $id_sortie]);
+
     }
 
     /**
