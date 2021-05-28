@@ -51,14 +51,6 @@
                         </tr>
                     {% endfor %}
                 {% endif %}
-                {% if participants is not empty %}
-                    {% for participant in participants %}
-                        <tr class="ligne-contenu-2">
-                            <th class="colonne-contenu">{{ participant.pseudo }}</th>
-                            <th class="colonne-contenu">{{ participant.prenom}} {{ participant.nom }}</th>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
             </table>
         </div>
         <div class="btn-div">
