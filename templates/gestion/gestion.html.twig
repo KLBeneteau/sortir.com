@@ -3,9 +3,9 @@
 
 <h1>Gestion des utilisateurs.</h1>
     <div>
-        <table>
+        <table class="liste table-sortie">
             <thead>
-            <tr>
+            <tr class="ligne-titre">
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Pseudo</th>
@@ -22,9 +22,7 @@
                     <td>{{ participant.email }}</td>
                     <td><form method="post" action="{{ path('participant_delete') }}">
                             <input type="hidden" name="participant_id" value="{{ participant.id }}">
-                            <button type="submit" name="participant_delete" value="{{ participant.id }}">Supprimer</button>
-                            <input type="hidden" name="participant_id" value="">
-                            <button type="submit" name="participant_delete" value="">Supprimer sortie</button>
+                            <button class="annulation-btn-small" type="submit" name="participant_delete" value="{{ participant.id }}">Supprimer</button>
                         </form>
                     </td>
                 </tr>
