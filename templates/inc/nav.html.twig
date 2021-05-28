@@ -12,6 +12,8 @@
                 <li class="menu-li">&ensp;&ensp;|&ensp;</li>
                 <li class="menu-li"><a class="menu-a" href="{{ path('participant_afficherPage') }}" title="Participant">Participant</a></li>
                 <li class="menu-li">&ensp;&ensp;|&ensp;</li>
+                <li class="menu-li"><a class="menu-a" href="{{ path('profil_creer') }}" title="Inscrire un Utilisateur">Inscrire un Utilisateur</a></li>
+                <li class="menu-li">&ensp;&ensp;|&ensp;</li>
             {% endif %}
 
             <li class="menu-li"><a class="menu-a" href="{{ path('profil_consulter', {'id': app.user.id}) }}" title="Mon profil">Mon profil</a></li>

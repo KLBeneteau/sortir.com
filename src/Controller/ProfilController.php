@@ -66,14 +66,18 @@ class ProfilController extends AbstractController
             $entityManager->persist($participant);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre profil a bien été créer');
-
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $participant,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            if (is_null($this->getUser())){
+                $this->addFlash('success', 'Votre profil a bien été créer');
+                return $guardHandler->authenticateUserAndHandleSuccess(
+                    $participant,
+                    $request,
+                    $authenticator,
+                    'main' // firewall name in security.yaml
+                );
+            } else {
+                $this->addFlash('success', 'Vous avez bien inscrit un nouvel utilisateur');
+                $this->redirectToRoute('main_accueil');
+            }
         }
         return $this->render('profil/creer.html.twig', [
             'profilForm' => $profilForm->createView(),
