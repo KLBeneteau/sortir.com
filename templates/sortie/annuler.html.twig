@@ -4,7 +4,7 @@
     <div>
         <h1>Annuler une sortie</h1>
     </div>
-{%  if sortie.organisateur.id == app.user.id %}
+{%  if sortie.organisateur.id == app.user.id or is_granted("ROLE_ADMIN") %}
     <div >
         <ul>
             <li class="champ-li"><span class="nom-champ">Nom de la sortie : </span>{{ sortie.nom }}</li>
@@ -27,7 +27,7 @@
     <div id="description">
         <p >Vous ne pouvez pas annuler une sortie si vous n'en êtes pas l'organisateur !</p>
         <form action="{{ path('main_accueil') }}" method="post">
-            <button class="annulation-btn" type="submit">Annuler</button>
+            <button class="annulation-btn" type="submit">Retour</button>
         </form>
     </div>
 {% endif %}
