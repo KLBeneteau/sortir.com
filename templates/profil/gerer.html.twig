@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer un profil{% endblock %}
+
+
+
+{% block body %}
+    {% if app.user.id == participant.id %}
+        <div class="container-form">
+            <div class="img-profil-div">
+                {% if participant.photoProfil != null %}
+                    <img class="img-profil" src="{{ asset('uploads/photos/' ~ participant.photoProfil)}}">
+
+                {% else %}
+                    <img class="img-profil" src="{{ asset('img/canard-profil.png')}}">
+                {% endif %}
+            </div>
+            <div class="formulaire">
+                <div class="contenu-form">
+                    {{ form_start(profilForm) }}
+                    {{ form_widget(profilForm) }}
+                    <a href="{{ path('main_accueil') }}" class="annulation-btn">ANNULER</a>
+                    <button class="validation-btn" type="submit" value="enregistrer">ENREGISTRER</button>
+                    {{ form_end(profilForm) }}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div id="description">
+            <p >Vous ne pouvez pas modfier le profil d'un autre utilisateur !</p>
+            <form action="{{ path('main_accueil') }}" method="post">
+                <button class="annulation-btn" type="submit">Annuler</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
